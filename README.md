@@ -32,3 +32,22 @@ The following rules apply to both 'main' and 'dev' branches to maintain high qua
 1. Feature branches are created from 'dev'.
 2. Pull Requests are opened from feature branches into 'dev'.
 3. Once 'dev' reaches a stable milestone, a final PR is made from 'dev' into 'main'.
+
+## Setup Instructions
+
+### Prerequisites
+
+- Java Development Kit (JDK) 20 or higher
+- Maven
+- Git
+
+### Setup
+
+1. Clone the repository: `git clone <repository-url>`.
+2. Navigate to the project directory: `cd B21_AI_Group_06`.
+3. Set up the `application.properties` file with the appropriate database credentials and configurations.
+
+### Running the app
+
+1. Navigate to the project directory in your terminal.
+2. Run `java -jar target/qa-project-1.0-SNAPSHOT.jar` to start the application.
