@@ -12,5 +12,5 @@ import io.cucumber.testng.CucumberOptions;
         },
         tags = "@215552U or @215565L"                 // runs both testers' tests
 )
-public class CucumberRunner extends AbstractTestNGCucumberTests {
+public class CucumberRunnerTest extends AbstractTestNGCucumberTests {
 }
