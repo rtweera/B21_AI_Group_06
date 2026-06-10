@@ -14,11 +14,15 @@ public class ConfigReader {
         try (InputStream is = new FileInputStream("app/application.properties")) {
             props.load(is);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to load application.properties", e);
         }
     }
 
     public static String getBaseUrl() {
-        return props.getProperty("api.base-url").trim();
+        String url = props.getProperty("api.base-url");
+        if (url == null) {
+            throw new RuntimeException("api.base-url is missing");
+        }
+        return url.trim();
     }
 }
