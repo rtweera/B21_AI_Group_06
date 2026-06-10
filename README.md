@@ -50,4 +50,7 @@ The following rules apply to both 'main' and 'dev' branches to maintain high qua
 ### Running the app
 
 1. Navigate to the project directory in your terminal.
-2. Run `java -jar target/qa-project-1.0-SNAPSHOT.jar` to start the application.
+2. Run `cd app && java -jar qa-training-app.jar` to start the application.
+
+> NOTE: It is required to run the app while in `/app` directory to ensure the correct path for the `application.properties` file.
+> Hence the above command is not `java -jar qa-training-app.jar` but `cd app && java -jar qa-training-app.jar`.
