@@ -54,3 +54,9 @@ The following rules apply to both 'main' and 'dev' branches to maintain high qua
 
 > NOTE: It is required to run the app while in `/app` directory to ensure the correct path for the `application.properties` file.
 > Hence the above command is not `java -jar qa-training-app.jar` but `cd app && java -jar qa-training-app.jar`.
+
+### Run the tests
+
+`mvn test` to execute the entire test suite.
+
+`mvn test -Dcucumber.filter.tags="@215552U"` to execute tests tagged with `@215552U` (replace with your own student ID tag).
