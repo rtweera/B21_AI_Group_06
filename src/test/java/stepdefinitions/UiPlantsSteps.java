@@ -2,7 +2,6 @@ package stepdefinitions;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.SelectOption;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -35,7 +34,7 @@ import static org.testng.Assert.*;
  * The only non-page-object code kept here is the {@code ensurePlantExists}
  * helper, which uses the REST API (not the browser) to seed test data.
  */
-public class PlantsUiSteps {
+public class UiPlantsSteps {
 
     private Page page;
     private PlantsPage plantsPage;

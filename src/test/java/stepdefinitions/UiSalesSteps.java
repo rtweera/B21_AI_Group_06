@@ -12,7 +12,7 @@ import utils.PlaywrightFactory;
 import static org.testng.Assert.*;
 
 // The Java code that runs for each English line in the feature file
-public class SalesUiSteps {
+public class UiSalesSteps {
 
     private Page page;
 
