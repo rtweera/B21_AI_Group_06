@@ -17,3 +17,6 @@ Thumbs.db
 
 # Application properties
 application.properties
+
+# Local run guide
+APP_STARTUP_AND_TEST_GUIDE.md
