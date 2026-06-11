@@ -23,6 +23,29 @@ public class ApiTestContext {
 
     @Before("@215527A and @api")
     public void setUpApiContext() {
+        initContext();
+    }
+
+    @After("@215527A and @api")
+    public void tearDownApiContext() {
+        destroyContext();
+    }
+
+    // -----------------------------------------------------------------------
+    // Tester 215565L – @API-tagged scenarios
+    // -----------------------------------------------------------------------
+
+    @Before("@215565L and @API")
+    public void setUpApiContext215565L() {
+        initContext();
+    }
+
+    @After("@215565L and @API")
+    public void tearDownApiContext215565L() {
+        destroyContext();
+    }
+
+    private void initContext() {
         State state = new State();
         state.playwright = Playwright.create();
         state.api = state.playwright.request().newContext(
@@ -32,16 +55,11 @@ public class ApiTestContext {
         CURRENT.set(state);
     }
 
-    @After("@215527A and @api")
-    public void tearDownApiContext() {
+    private void destroyContext() {
         State state = CURRENT.get();
         if (state != null) {
-            if (state.api != null) {
-                state.api.dispose();
-            }
-            if (state.playwright != null) {
-                state.playwright.close();
-            }
+            if (state.api != null) state.api.dispose();
+            if (state.playwright != null) state.playwright.close();
         }
         CURRENT.remove();
     }
@@ -71,5 +89,8 @@ public class ApiTestContext {
         String userToken;
         Long createdCategoryId;
         String createdCategoryName;
+        // Fields used by 215565L plant/sale tests
+        Long createdPlantId;
+        Long createdSaleId;
     }
 }
