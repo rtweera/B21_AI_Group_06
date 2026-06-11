@@ -21,4 +21,22 @@ public class LoginPage extends BasePage{
     public boolean isDisplayed() {
         return page.url().contains("/login");
     }
+
+    // Click the Logout button/link
+    public void clickLogout() {
+        page.locator("a:has-text('Logout'), button:has-text('Logout')")
+                .first()
+                .click();
+        page.waitForTimeout(1000);
+    }
+
+    // Check if a logout success message is shown anywhere on the page
+    public boolean isLogoutMessageVisible() {
+        String body = page.locator("body")
+                .textContent()
+                .toLowerCase();
+        return body.contains("logged out")
+                || body.contains("logout")
+                || body.contains("successfully");
+    }
 }

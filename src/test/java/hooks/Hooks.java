@@ -31,4 +31,24 @@ public class Hooks {
         PlaywrightFactory.closeBrowser();
         System.out.println("[TEARDOWN] Browser closed\n");
     }
+
+    // Before any @API test: set up the API tool
+    @Before("@API")
+    public void setUpApi(Scenario scenario) {
+        System.out.println("\n=== STARTING: " + scenario.getName() + " ===");
+        utils.PlaywrightFactory.getApiContext();
+        System.out.println("[SETUP] API context ready");
+    }
+
+    // After any @API test: clean up
+    @After("@API")
+    public void tearDownApi(Scenario scenario) {
+        if (scenario.isFailed()) {
+            System.out.println("[TEARDOWN] FAILED");
+        } else {
+            System.out.println("[TEARDOWN] PASSED");
+        }
+        utils.PlaywrightFactory.closeApi();
+        System.out.println("[TEARDOWN] API closed\n");
+    }
 }
