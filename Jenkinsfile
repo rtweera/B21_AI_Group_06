@@ -11,7 +11,7 @@ pipeline {
         //   "@215552U or @215565L"- both testers (same as default)
         string(
             name: 'TAGS',
-            defaultValue: '@215552U or @215565L',
+            defaultValue: '@215552U or @215565L or @215527A or @215564H',
             description: 'Cucumber tag expression - controls which scenarios run'
         )
     }
