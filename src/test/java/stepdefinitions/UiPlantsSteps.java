@@ -63,7 +63,7 @@ public class UiPlantsSteps {
      * delete-prevention tests have a referencing sale.
      */
     private void ensurePlantExists(String name) {
-        try (HttpClient client = HttpClient.newHttpClient();) {
+        try (HttpClient client = HttpClient.newHttpClient()) {
             // Authenticate as admin
             String authPayload = "{\"username\":\"admin\",\"password\":\"admin123\"}";
             HttpRequest authReq = HttpRequest.newBuilder()
