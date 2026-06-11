@@ -1,0 +1,22 @@
+# IntelliJ
+.idea/
+
+# Maven
+target/
+
+# Allure
+allure-results/
+allure-report/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Application properties
+application.properties
+
+# Local run guide
+APP_STARTUP_AND_TEST_GUIDE.md
