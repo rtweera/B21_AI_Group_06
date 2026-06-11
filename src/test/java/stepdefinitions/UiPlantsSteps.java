@@ -1,5 +1,6 @@
 package stepdefinitions;
 
+import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.cucumber.java.Before;
@@ -62,9 +63,7 @@ public class UiPlantsSteps {
      * delete-prevention tests have a referencing sale.
      */
     private void ensurePlantExists(String name) {
-        try {
-            HttpClient client = HttpClient.newHttpClient();
-
+        try (HttpClient client = HttpClient.newHttpClient();) {
             // Authenticate as admin
             String authPayload = "{\"username\":\"admin\",\"password\":\"admin123\"}";
             HttpRequest authReq = HttpRequest.newBuilder()
@@ -326,7 +325,7 @@ public class UiPlantsSteps {
             String rowText = firstRow.textContent();
             if (rowText.contains("No sales found") || rowText.contains("No record")) break;
 
-            page.onceDialog(dialog -> dialog.accept());
+            page.onceDialog(Dialog::accept);
             Locator deleteBtn = firstRow.locator(
                     "button.btn-outline-danger, button:has(i.bi-trash), button:has-text('Delete')");
             if (deleteBtn.count() > 0) {
