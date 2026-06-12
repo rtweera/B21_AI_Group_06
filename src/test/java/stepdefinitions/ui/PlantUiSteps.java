@@ -143,14 +143,21 @@ public class PlantUiSteps extends UiStepSupport {
 
     @Then("the system should prevent deletion and display an appropriate message indicating that the plant cannot be deleted")
     public void systemShouldPreventDeletion() {
-        System.out.println("[STEP] Verifying system prevents deletion...");
+        System.out.println("[STEP] Verifying system prevents deletion with a user-friendly message...");
         String bodyText = plantsPage().getBodyTextLower();
-        boolean hasError = bodyText.contains("cannot delete") || bodyText.contains("sales record")
+
+        // DEFECT (UI_PLT_ADM_005): The application throws a 500 Whitelabel Error page
+        // instead of a user-friendly message. Plant is correctly not deleted, but the
+        // UI gives no meaningful feedback. Expected: inline error or toast. Actual: HTTP 500.
+        assertFalse(
+                bodyText.contains("whitelabel") || bodyText.contains("this application has no explicit mapping"),
+                "DEFECT: Application shows a Whitelabel 500 Error page instead of a user-friendly message.");
+
+        boolean hasFriendlyMessage = bodyText.contains("cannot delete") || bodyText.contains("sales record")
                 || bodyText.contains("constraint") || bodyText.contains("foreign key")
-                || bodyText.contains("error") || bodyText.contains("prevent")
-                || bodyText.contains("associated");
-        assertTrue(hasError, "Should show an error message explaining that the plant cannot be deleted.");
-        System.out.println("[PASS] Deletion prevented with message");
+                || bodyText.contains("prevent") || bodyText.contains("associated");
+        assertTrue(hasFriendlyMessage, "Expected a user-friendly error message explaining the plant cannot be deleted.");
+        System.out.println("[PASS] Deletion prevented with appropriate message");
     }
 
     // ── Non-admin access ──────────────────────────────────────────────────────
