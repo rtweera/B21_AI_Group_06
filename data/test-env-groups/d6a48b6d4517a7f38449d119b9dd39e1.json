@@ -1,1 +1,1 @@
-{"id":"d6a48b6d4517a7f38449d119b9dd39e1","fullName":"src/test/resources/features/api/sales_api.feature:61","name":"API_POST_SLS_USR_002 - Normal user cannot create a sale","status":"failed","testResultsByEnv":{"default":"c8044362b308e6a88e68805b622c00dd"}}
+{"id":"d6a48b6d4517a7f38449d119b9dd39e1","fullName":"src/test/resources/features/api/sales_api.feature:61","name":"API_POST_SLS_USR_002 - Normal user cannot create a sale","status":"failed","testResultsByEnv":{"default":"2a56f8ccb497bf01be242e0927267c1e"}}

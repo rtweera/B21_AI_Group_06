@@ -1,1 +1,1 @@
-{"id":"29a4717586cc07f0e9ad866dc533d613","fullName":"src/test/resources/features/ui/sales_ui.feature:39","name":"UI_SLS_ADM_004 - Sales list is sorted by date descending by default","status":"passed","testResultsByEnv":{"default":"24a60c16a9177d62ebce1e5134df1827"}}
+{"id":"29a4717586cc07f0e9ad866dc533d613","fullName":"src/test/resources/features/ui/sales_ui.feature:39","name":"UI_SLS_ADM_004 - Sales list is sorted by date descending by default","status":"passed","testResultsByEnv":{"default":"226bd320cec6bcbc9b8172e0d2e834f1"}}

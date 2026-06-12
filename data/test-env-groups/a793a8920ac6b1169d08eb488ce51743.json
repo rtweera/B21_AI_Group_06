@@ -1,1 +1,1 @@
-{"id":"a793a8920ac6b1169d08eb488ce51743","fullName":"src/test/resources/features/ui/plants_ui.feature:99","name":"UI_PLT_USR_006 - Verify that user does not see the Sell Plant button","status":"passed","testResultsByEnv":{"default":"cd46ce2372a2b97555ea16fd73dac973"}}
+{"id":"a793a8920ac6b1169d08eb488ce51743","fullName":"src/test/resources/features/ui/plants_ui.feature:99","name":"UI_PLT_USR_006 - Verify that user does not see the Sell Plant button","status":"passed","testResultsByEnv":{"default":"e5dfd61d243971b3cd80fce0d06f89c7"}}

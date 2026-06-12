@@ -1,1 +1,1 @@
-{"id":"417969b208b45fa355e35b429f48cdb0","fullName":"src/test/resources/features/ui/categories_ui.feature:15","name":"UI_CAT_ADM_002 - Admin can see edit and delete buttons for every category","status":"passed","testResultsByEnv":{"default":"514caecba2345bc8e9a346c066a27b27"}}
+{"id":"417969b208b45fa355e35b429f48cdb0","fullName":"src/test/resources/features/ui/categories_ui.feature:15","name":"UI_CAT_ADM_002 - Admin can see edit and delete buttons for every category","status":"passed","testResultsByEnv":{"default":"5dbc01357a51cc04306f31d16de044c2"}}

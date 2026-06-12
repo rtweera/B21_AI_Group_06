@@ -1,1 +1,1 @@
-{"id":"393e855f5287ec0c546641803c0c1629","fullName":"src/test/resources/features/ui/auth_ui.feature:52","name":"UI_AUTH_USR_005 - User logout ends the session","status":"passed","testResultsByEnv":{"default":"754b67308f093b00bf1a009bd1d96f76"}}
+{"id":"393e855f5287ec0c546641803c0c1629","fullName":"src/test/resources/features/ui/auth_ui.feature:52","name":"UI_AUTH_USR_005 - User logout ends the session","status":"passed","testResultsByEnv":{"default":"23ada8e1a73f61da45d1db32da83a352"}}

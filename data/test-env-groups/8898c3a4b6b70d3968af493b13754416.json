@@ -1,1 +1,1 @@
-{"id":"8898c3a4b6b70d3968af493b13754416","fullName":"src/test/resources/features/ui/categories_ui.feature:94","name":"UI_CAT_USR_003 - Verify non-admin cannot edit or delete categories","status":"failed","testResultsByEnv":{"default":"6e523ce85c3f9684fc7885039b78adb3"}}
+{"id":"8898c3a4b6b70d3968af493b13754416","fullName":"src/test/resources/features/ui/categories_ui.feature:94","name":"UI_CAT_USR_003 - Verify non-admin cannot edit or delete categories","status":"failed","testResultsByEnv":{"default":"eb8382c0c6c8416acf9f5f3196975945"}}

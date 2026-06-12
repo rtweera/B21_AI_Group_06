@@ -1,1 +1,1 @@
-{"id":"94f8124c1aa001ee19327bcbe7a2e30c","fullName":"src/test/resources/features/ui/plants_ui.feature:105","name":"UI_PLT_USR_007 - Verify that user does not see the delete button on sales rows","status":"passed","testResultsByEnv":{"default":"77673b0076309063c8b3b34441f8ba25"}}
+{"id":"94f8124c1aa001ee19327bcbe7a2e30c","fullName":"src/test/resources/features/ui/plants_ui.feature:105","name":"UI_PLT_USR_007 - Verify that user does not see the delete button on sales rows","status":"passed","testResultsByEnv":{"default":"30bd7fa65808c3205664acbaf14a6648"}}

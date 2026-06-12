@@ -1,1 +1,1 @@
-{"id":"5632ab0d5b24cff194e1334e71005f6f","fullName":"src/test/resources/features/ui/categories_ui.feature:78","name":"UI_CAT_USR_001 - Normal user cannot see category management controls","status":"failed","testResultsByEnv":{"default":"75975f9bf2ba62eefcdf51b14f0ed728"}}
+{"id":"5632ab0d5b24cff194e1334e71005f6f","fullName":"src/test/resources/features/ui/categories_ui.feature:78","name":"UI_CAT_USR_001 - Normal user cannot see category management controls","status":"failed","testResultsByEnv":{"default":"dd600828ee7953374d26dd65ccca6575"}}

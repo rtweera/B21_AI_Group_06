@@ -1,1 +1,1 @@
-{"id":"7b2ff494dbde128b8e8ab04de2a25139","fullName":"src/test/resources/features/ui/auth_ui.feature:9","name":"UI_AUTH_ADM_001 - Admin can log in with correct credentials","status":"passed","testResultsByEnv":{"default":"4a58f88ccf169d9fe89ded81f73b2676"}}
+{"id":"7b2ff494dbde128b8e8ab04de2a25139","fullName":"src/test/resources/features/ui/auth_ui.feature:9","name":"UI_AUTH_ADM_001 - Admin can log in with correct credentials","status":"passed","testResultsByEnv":{"default":"a92954dfa45f9fb4f392672e48f0ee0e"}}

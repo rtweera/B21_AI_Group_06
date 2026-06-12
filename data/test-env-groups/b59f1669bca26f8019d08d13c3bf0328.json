@@ -1,1 +1,1 @@
-{"id":"b59f1669bca26f8019d08d13c3bf0328","fullName":"src/test/resources/features/api/sales_api.feature:41","name":"API_GET_SLS_ADM_005 - Admin can get the sales list sorted by date descending","status":"passed","testResultsByEnv":{"default":"b26f4d9dd9fcd2c9d970088bcccab52a"}}
+{"id":"b59f1669bca26f8019d08d13c3bf0328","fullName":"src/test/resources/features/api/sales_api.feature:41","name":"API_GET_SLS_ADM_005 - Admin can get the sales list sorted by date descending","status":"passed","testResultsByEnv":{"default":"f25737af31ed12b20bb77e8c7b75e2fe"}}
