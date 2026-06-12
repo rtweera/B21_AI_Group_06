@@ -25,13 +25,66 @@ pipeline {
             }
         }
 
+        stage('Start Backend') {
+            steps {
+                echo "Configuring and starting backend..."
+                withEnv(['JENKINS_NODE_COOKIE=dontKillMe', 'BUILD_ID=dontKillMe']) {
+                    bat """
+                        @echo off
+                        cd app
+                        
+                        :: Copy application.properties if it doesn't exist
+                        if not exist application.properties (
+                            echo Creating application.properties from example...
+                            copy application.properties.example application.properties
+                            powershell -Command "(gc application.properties) -replace '<root password>', 'root' -replace '8080', '8088' | Out-File -encoding ASCII application.properties"
+                        )
+                        
+                        :: Kill any existing process on port 8088 to avoid port collision
+                        echo Cleaning up any existing process on port 8088...
+                        for /f "tokens=5" %%a in ('netstat -aon ^| findstr :8088 ^| findstr LISTENING') do (
+                            echo Killing process %%a on port 8088...
+                            taskkill /F /PID %%a
+                        )
+                        
+                        :: Start the backend jar in the background
+                        echo Starting backend jar...
+                        start "BackendApp" /B java -jar qa-training-app.jar > backend.log 2>&1
+                    """
+                }
+                
+                echo "Waiting for backend to become healthy..."
+                powershell '''
+                    $timeout = 60
+                    $elapsed = 0
+                    $url = "http://localhost:8088/swagger-ui.html"
+                    while ($elapsed -lt $timeout) {
+                        try {
+                            $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 2
+                            if ($response.StatusCode -eq 200) {
+                                Write-Host "Backend is up and running!"
+                                exit 0
+                            }
+                        } catch {
+                            # Ignore errors and retry
+                        }
+                        Start-Sleep -Seconds 2
+                        $elapsed += 2
+                    }
+                    Write-Error "Backend failed to start within $timeout seconds."
+                    exit 1
+                '''
+            }
+        }
+
         stage('Run Tests') {
             steps {
                 echo "Running tests with tags: ${params.TAGS}"
                 bat """
                     mvn clean test ^
                         -Dcucumber.filter.tags="${params.TAGS}" ^
-                        -Dallure.results.directory=allure-results
+                        -Dallure.results.directory=allure-results ^
+                        -Dbase.url=http://localhost:8088
                 """
             }
             post {
@@ -57,6 +110,14 @@ pipeline {
 
     post {
         always {
+            echo "Stopping backend..."
+            bat """
+                @echo off
+                for /f "tokens=5" %%a in ('netstat -aon ^| findstr :8088 ^| findstr LISTENING') do (
+                    echo Killing process %%a on port 8088...
+                    taskkill /F /PID %%a
+                )
+            """
             echo "Pipeline complete. Open the Allure Report link in the Jenkins build sidebar."
         }
         failure {

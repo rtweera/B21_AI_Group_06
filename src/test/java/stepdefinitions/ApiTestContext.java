@@ -87,6 +87,13 @@ public class ApiTestContext {
         String lastBody;
         String adminToken;
         String userToken;
+        /**
+         * Always holds the token that was acquired MOST RECENTLY.
+         * Use this in When/Then steps that should run as "whoever last logged in".
+         * This correctly handles scenarios that switch roles mid-scenario
+         * (e.g. create plant as admin, then attempt delete as normal user).
+         */
+        String activeToken;
         Long createdCategoryId;
         String createdCategoryName;
         // Fields used by 215565L plant/sale tests

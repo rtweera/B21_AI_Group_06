@@ -48,7 +48,7 @@ Feature: Plants API Tests
   @API_DEL_PLT_ADM_005
   Scenario: API_DEL_PLT_ADM_005 - Admin can delete an existing plant
     Given I have an admin API token
-    And a plant exists and its id is captured
+    And a plant exists with its id captured
     When I send a DELETE request for the captured plant id
     Then the API response status should be 204
     And a GET request for the captured plant id should return 404
@@ -59,30 +59,28 @@ Feature: Plants API Tests
 
   @API_PUT_PLT_USR_001
   Scenario: API_PUT_PLT_USR_001 - Normal user cannot update a plant
-    Given I have an admin API token
-    And a plant exists and its id is captured
-    Given I have a normal user API token
+    Given a plant exists with its id captured
+    And I have a normal user API token
     When I send a PUT request for the captured plant id with name "Updated" price 99.0 and quantity 10
     Then the API response status should be 403
     And the API response body should indicate a forbidden error
 
   @API_DEL_PLT_USR_002
   Scenario: API_DEL_PLT_USR_002 - Normal user cannot delete a plant
-    Given I have an admin API token
-    And a plant exists and its id is captured
-    Given I have a normal user API token
+    Given a plant exists with its id captured
+    And I have a normal user API token
     When I send a DELETE request for the captured plant id
     Then the API response status should be 403
     And the API response body should indicate a forbidden error
 
   # -----------------------------------------------------------------------
-  # Normal user – Read plants (GET /api/plants, GET /api/plants/{id})
+  # Normal user – Read plants (GET /api/plants)
   # -----------------------------------------------------------------------
 
   @API_GET_PLT_USR_003
   Scenario: API_GET_PLT_USR_003 - Normal user can retrieve all plants
     Given I have a normal user API token
-    When I request all plants with the user token
+    When I request all plants
     Then the API response status should be 200
     And the API response body should contain a plant list
 
@@ -92,11 +90,10 @@ Feature: Plants API Tests
 
   @API_GET_SLS_USR_001
   Scenario: API_GET_SLS_USR_001 - Normal user can get a sale by id
-    Given I have an admin API token
-    And a plant exists and its id is captured
-    And a sale is created for the captured plant id with quantity 2 and its id is captured
-    Given I have a normal user API token
-    When I request the captured sale by id with the user token
+    Given a plant exists with its id captured
+    And a sale exists for the captured plant id with its id captured
+    And I have a normal user API token
+    When I request the captured sale by id
     Then the API response status should be 200
     And the API response body should contain the captured sale id
 
@@ -106,15 +103,14 @@ Feature: Plants API Tests
 
   @API_POST_SLS_USR_002
   Scenario: API_POST_SLS_USR_002 - Normal user cannot create a sale
-    Given I have an admin API token
-    And a plant exists and its id is captured
-    Given I have a normal user API token
-    When I attempt to sell the captured plant with quantity 10 as the normal user
+    Given a plant exists with its id captured
+    And I have a normal user API token
+    When I attempt to sell the captured plant with quantity 10
     Then the API response status should be 403
     And the API response body should indicate a forbidden error
 
   # -----------------------------------------------------------------------
-  # Admin – Create plant with full Swagger example body
+  # Admin – Create plant with full Swagger example body (Bug test cases)
   # Two separate defects; two separate test cases.
   # -----------------------------------------------------------------------
 
