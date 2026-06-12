@@ -1,6 +1,6 @@
 package stepdefinitions;
 
-import hooks.Hooks;
+import hooks.UiHooks;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import pages.LoginPage;
@@ -151,9 +151,9 @@ public class CategorySteps {
 
     @Before(value = "@UI", order = 3)
     public void initPages() {
-        loginPage = new LoginPage(Hooks.page);
-        categoriesPage = new CategoriesPage(Hooks.page);
-        plantsPage = new PlantsPage(Hooks.page);
+        loginPage = new LoginPage(UiHooks.page);
+        categoriesPage = new CategoriesPage(UiHooks.page);
+        plantsPage = new PlantsPage(UiHooks.page);
     }
 
     private void ensureCategoryExists(String categoryName) {
@@ -339,7 +339,7 @@ public class CategorySteps {
 
     @Then("admin should be redirected to Add Category page")
     public void admin_should_be_redirected_to_add_category_page(){
-        assertThat(Hooks.page).hasURL("http://localhost:8080/ui/categories/add");
+        assertThat(UiHooks.page).hasURL("http://localhost:8080/ui/categories/add");
     }
 
     @Then("saved category {string} should be visible in category list")
@@ -354,12 +354,12 @@ public class CategorySteps {
 
     @Then("admin should be redirected to Categories page")
     public void admin_should_be_redirected_to_categories_page(){
-        assertThat(Hooks.page).hasURL("http://localhost:8080/ui/categories");
+        assertThat(UiHooks.page).hasURL("http://localhost:8080/ui/categories");
     }
 
     @Then("if categories are empty {string} should be displayed")
     public void if_categories_are_empty_should_be_displayed(String expectedMessage) {
-        boolean hasRows = Hooks.page.locator("table tbody tr").count() > 0;
+        boolean hasRows = UiHooks.page.locator("table tbody tr").count() > 0;
         if (!hasRows) {
             categoriesPage.verifyNoCategoryFoundMessage(expectedMessage);
         } else {

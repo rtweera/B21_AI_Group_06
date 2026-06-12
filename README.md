@@ -32,3 +32,31 @@ The following rules apply to both 'main' and 'dev' branches to maintain high qua
 1. Feature branches are created from 'dev'.
 2. Pull Requests are opened from feature branches into 'dev'.
 3. Once 'dev' reaches a stable milestone, a final PR is made from 'dev' into 'main'.
+
+## Setup Instructions
+
+### Prerequisites
+
+- Java Development Kit (JDK) 20 or higher
+- Maven
+- Git
+
+### Setup
+
+1. Clone the repository: `git clone <repository-url>`.
+2. Navigate to the project directory: `cd B21_AI_Group_06`.
+3. Set up the `application.properties` file with the appropriate database credentials and configurations.
+
+### Running the app
+
+1. Navigate to the project directory in your terminal.
+2. Run `cd app && java -jar qa-training-app.jar` to start the application.
+
+> NOTE: It is required to run the app while in `/app` directory to ensure the correct path for the `application.properties` file.
+> Hence the above command is not `java -jar qa-training-app.jar` but `cd app && java -jar qa-training-app.jar`.
+
+### Run the tests
+
+`mvn test` to execute the entire test suite.
+
+`mvn test -Dcucumber.filter.tags="@215552U"` to execute tests tagged with `@215552U` (replace with your own student ID tag).
