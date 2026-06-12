@@ -62,8 +62,11 @@ public class PlantsPage extends BasePage {
     }
 
     public void clickPriceColumnHeader() {
-        page.locator("th:has-text('Price'), th[data-field='price']").first().click();
-        page.waitForTimeout(1000);
+        page.locator("th a:has-text('Price')")
+                .first()
+                .click();
+        page.waitForLoadState();
+        page.waitForTimeout(2000);
     }
 
     public Locator findRowContaining(String text) {
@@ -124,5 +127,27 @@ public class PlantsPage extends BasePage {
 
     public boolean isOnPath(String pathFragment) {
         return page.url().contains(pathFragment);
+    }
+
+    public boolean arePricesSortedAscending() {
+        int rows = getPlantRowCount();
+        double previous = -1;
+        for (int i = 0; i < rows; i++) {
+            String priceText = getPriceFromRow(i).replaceAll("[^0-9.]", "");
+            if (priceText.isEmpty()) continue;
+            double current = Double.parseDouble(priceText);
+            if (current < previous) return false;
+            previous = current;
+        }
+        return true;
+    }
+
+    public String getPriceFromRow(int rowIndex) {
+        return page.locator("table tbody tr")
+                .nth(rowIndex)
+                .locator("td")
+                .nth(2)
+                .textContent()
+                .trim();
     }
 }
