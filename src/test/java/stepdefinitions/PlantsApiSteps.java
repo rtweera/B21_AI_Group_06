@@ -177,11 +177,11 @@ public class PlantsApiSteps extends ApiStepSupport {
     public void iSendAPutRequestForTheCapturedPlantIdWithNamePriceAndQuantity(String name, double price, int quantity) {
         Long plantId = ApiTestContext.context().createdPlantId;
         assertNotNull(plantId, "No captured plant id available");
-        System.out.println("[STEP] PUT /api/plants/" + plantId + " (user token) name=" + name);
+        System.out.println("[STEP] PUT /api/plants/" + plantId + " (active token) name=" + name);
         ApiTestContext.State state = ApiTestContext.context();
         APIResponse response = state.api.put(
                 "/api/plants/" + plantId,
-                bearer(state.userToken).setData(plantBody(name, price, quantity)));
+                bearer(state.activeToken).setData(plantBody(name, price, quantity)));
         remember(response);
         System.out.println("[API] " + response.status() + " → " + lastBody());
     }
@@ -191,8 +191,10 @@ public class PlantsApiSteps extends ApiStepSupport {
         ApiTestContext.State state = ApiTestContext.context();
         Long plantId = state.createdPlantId;
         assertNotNull(plantId, "No captured plant id available");
-        String token = state.adminToken != null ? state.adminToken : state.userToken;
-        System.out.println("[STEP] DELETE /api/plants/" + plantId);
+        // activeToken is always the most recently acquired token (admin or user)
+        // so this correctly uses user credentials after "Given I have a normal user API token"
+        String token = state.activeToken;
+        System.out.println("[STEP] DELETE /api/plants/" + plantId + " (active token)");
         APIResponse response = state.api.delete("/api/plants/" + plantId, bearer(token));
         remember(response);
         System.out.println("[API] " + response.status() + " → " + lastBody());

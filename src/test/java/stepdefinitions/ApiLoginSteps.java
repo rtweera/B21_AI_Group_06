@@ -37,6 +37,7 @@ public class ApiLoginSteps extends ApiStepSupport {
     public void iHaveAnAdminApiToken() {
         remember(login(adminUsername(), adminPassword()));
         ApiTestContext.context().adminToken = extractToken();
+        ApiTestContext.context().activeToken = ApiTestContext.context().adminToken;
         assertNotNull(ApiTestContext.context().adminToken, "Expected admin auth token");
     }
 
@@ -44,6 +45,7 @@ public class ApiLoginSteps extends ApiStepSupport {
     public void iHaveANormalUserApiToken() {
         remember(login(userUsername(), userPassword()));
         ApiTestContext.context().userToken = extractToken();
+        ApiTestContext.context().activeToken = ApiTestContext.context().userToken;
         assertNotNull(ApiTestContext.context().userToken, "Expected normal user auth token");
     }
 
