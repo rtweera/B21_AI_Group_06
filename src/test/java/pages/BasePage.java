@@ -33,4 +33,8 @@ public abstract class BasePage {
     public boolean isOnLoginPage() {
         return page.url().contains("/login");
     }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 }
