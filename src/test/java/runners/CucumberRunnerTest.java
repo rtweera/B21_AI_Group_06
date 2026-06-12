@@ -4,11 +4,11 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        features = "src/test/resources/features",   // where the English tests are
-        glue = {"stepdefinitions", "hooks"},          // where the Java code is
+        features = "src/test/resources/features",
+        glue = {"stepdefinitions", "hooks"},
         plugin = {
-                "pretty",                             // nice console output
-                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"  // for Allure report
+                "pretty",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         },
         tags = "@215552U or @215565L"                 // runs both testers' tests
 )

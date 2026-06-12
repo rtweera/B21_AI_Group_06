@@ -1,6 +1,5 @@
 package pages;
 
-import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.SelectOption;
 
@@ -75,15 +74,19 @@ public class SalesPage extends BasePage {
 
     // Delete the first sale and automatically accept the confirmation popup
     public void deleteFirstSaleAndConfirm() {
-        // This tells the browser: "when a confirm popup appears, click OK automatically"
-        page.onceDialog(Dialog::accept);
+        int countBefore = getSalesRowCount();
+        System.out.println("[INFO] Sales before delete: " + countBefore);
 
-        // Now click the Delete button on the first row
-        page.locator("table tbody tr")
-                .first()
-                .locator("button:has-text('Delete'), a:has-text('Delete')")
-                .first()
-                .click();
+        // When the "Are you sure?" popup appears, click OK
+        page.onceDialog(dialog -> {
+            System.out.println("[INFO] Dialog appeared: " + dialog.message());
+            dialog.accept();
+        });
+
+        // Click the trash icon button on the first row
+        page.locator("table tbody tr").first()
+                .locator("button.btn-outline-danger, button:has(i.bi-trash)")
+                .first().click();
 
         page.waitForTimeout(1500);
     }
