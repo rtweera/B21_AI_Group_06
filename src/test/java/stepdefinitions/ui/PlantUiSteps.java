@@ -1,5 +1,7 @@
 package stepdefinitions.ui;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Locator;
 import io.cucumber.java.Before;
@@ -12,6 +14,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,19 +100,21 @@ public class PlantUiSteps extends UiStepSupport {
 
     @Then("the category dropdown should contain only subcategories")
     public void categoryDropdownContainsOnlySubcategories() {
-        System.out.println("[STEP] Checking category dropdown options...");
+        System.out.println("[STEP] Checking category dropdown options against /api/categories/sub-categories...");
+        Set<String> knownSubcategories = fetchSubcategoryNamesFromApi();
+        System.out.println("[INFO] Known subcategories from API: " + knownSubcategories);
+
         Locator options = addPlantPage().getCategoryOptions();
         int count = options.count();
-        System.out.println("[INFO] Dropdown options count: " + count);
-        assertTrue(count <= 3, "Dropdown should only contain subcategories. Option count: " + count);
-        for (int i = 0; i < count; i++) {
+        // index 0 is the placeholder ("-- Select Sub Category --"), skip it
+        assertTrue(count > 1, "Category dropdown should have at least one subcategory option.");
+        for (int i = 1; i < count; i++) {
             String label = options.nth(i).textContent().trim();
             System.out.println("[INFO] Option " + i + ": " + label);
-            assertFalse(label.equals("Roses") || label.equals("Succulents")
-                            || label.equals("Tulips") || label.equals("Aloe"),
-                    "Dropdown should not contain main category: " + label);
+            assertTrue(knownSubcategories.contains(label),
+                    "Dropdown option '" + label + "' is not a known subcategory. API returned: " + knownSubcategories);
         }
-        System.out.println("[PASS] Dropdown contains only subcategories");
+        System.out.println("[PASS] All " + (count - 1) + " dropdown options verified as subcategories");
     }
 
     @Then("I should see a validation error {string}")
@@ -317,6 +323,40 @@ public class PlantUiSteps extends UiStepSupport {
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────
+
+    /**
+     * Calls GET /api/categories/sub-categories and returns a set of subcategory names.
+     * Uses admin credentials (same pattern as ensurePlantExists).
+     */
+    private Set<String> fetchSubcategoryNamesFromApi() {
+        Set<String> names = new HashSet<>();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            String authPayload = "{\"username\":\"admin\",\"password\":\"admin123\"}";
+            HttpRequest authReq = HttpRequest.newBuilder()
+                    .uri(URI.create(plantsPage().getBaseUrl() + "/api/auth/login"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(authPayload))
+                    .build();
+            HttpResponse<String> authRes = client.send(authReq, HttpResponse.BodyHandlers.ofString());
+            String token = extractFirst(authRes.body(), "\"token\"\\s*:\\s*\"([^\"]+)\"");
+
+            HttpRequest subCatReq = HttpRequest.newBuilder()
+                    .uri(URI.create(plantsPage().getBaseUrl() + "/api/categories/sub-categories"))
+                    .header("Authorization", "Bearer " + token)
+                    .GET().build();
+            HttpResponse<String> subCatRes = client.send(subCatReq, HttpResponse.BodyHandlers.ofString());
+
+            // Parse only the top-level "name" of each subcategory entry — Gson avoids
+            // accidentally picking up nested parent names from within the same response.
+            for (JsonElement el : JsonParser.parseString(subCatRes.body()).getAsJsonArray()) {
+                names.add(el.getAsJsonObject().get("name").getAsString());
+            }
+        } catch (Exception e) {
+            System.out.println("[WARN] Could not fetch subcategories from API: " + e.getMessage());
+        }
+        return names;
+    }
 
     /**
      * Ensures a plant exists via the REST API. Also creates a sale for "TestPlant"
