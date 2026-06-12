@@ -40,12 +40,12 @@ public class CategoriesPage extends BasePage {
 
     public void clickSave() {
         page.locator("button[type='submit'], button:has-text('Save')").first().click();
-        page.waitForTimeout(500);
+        page.waitForLoadState();
     }
 
     public void clickCancel() {
         page.locator("a:has-text('Cancel'), button:has-text('Cancel')").first().click();
-        page.waitForTimeout(500);
+        page.waitForLoadState();
     }
 
     public void verifyCategoryVisible(String categoryName) {

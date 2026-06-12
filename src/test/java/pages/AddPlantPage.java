@@ -40,13 +40,9 @@ public class AddPlantPage extends BasePage {
      * @param category the category label as shown in the dropdown
      */
     public void selectCategory(String category) {
-        try {
-            page.selectOption("#categoryId", new SelectOption().setLabel(category));
-        } catch (Exception e) {
-            // Some category names are stored without spaces (e.g. "Spider Aloe" -> "SpiderAloe")
-            String normalized = category.replace(" ", "");
-            page.selectOption("#categoryId", new SelectOption().setLabel(normalized));
-        }
+        // Category names in the app have no spaces (e.g. "Spider Aloe" is stored as "SpiderAloe").
+        // Normalizing upfront avoids a 30-second Playwright timeout on the unstripped label.
+        page.selectOption("#categoryId", new SelectOption().setLabel(category.replace(" ", "")));
     }
 
     /** Fill the price field. */
@@ -88,7 +84,7 @@ public class AddPlantPage extends BasePage {
      */
     public void clickSave() {
         page.locator("button:has-text('Save'), button[type='submit']").first().click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 
     /**

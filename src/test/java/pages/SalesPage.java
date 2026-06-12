@@ -83,7 +83,7 @@ public class SalesPage extends BasePage {
                 .locator("button.btn-outline-danger, button:has(i.bi-trash)")
                 .first().click();
 
-        page.waitForTimeout(1500);
+        page.waitForLoadState();
     }
 
     // Check if we are on the sales list page
@@ -107,6 +107,6 @@ public class SalesPage extends BasePage {
         page.locator("a:has-text('Cancel'), button:has-text('Cancel')")
                 .first()
                 .click();
-        page.waitForTimeout(1000);
+        page.waitForURL("**/sales");
     }
 }

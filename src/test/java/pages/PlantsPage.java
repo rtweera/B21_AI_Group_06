@@ -17,7 +17,7 @@ public class PlantsPage extends BasePage {
 
     public void goToPlants() {
         open();
-        page.waitForTimeout(500);
+        page.locator("table").waitFor();
     }
 
     public int getPlantRowCount() {
@@ -27,13 +27,13 @@ public class PlantsPage extends BasePage {
     public void searchPlant(String plantName) {
         page.fill("input[name='name']", plantName);
         page.locator("button:has-text('Search')").first().click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 
     public void searchByName(String name) {
         page.fill("input[name='name']", name);
         page.locator("button:has-text('Search')").first().click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 
     public void verifyPlantVisible(String plantName) {
@@ -62,11 +62,8 @@ public class PlantsPage extends BasePage {
     }
 
     public void clickPriceColumnHeader() {
-        page.locator("th a:has-text('Price')")
-                .first()
-                .click();
+        page.locator("th a:has-text('Price')").first().click();
         page.waitForLoadState();
-        page.waitForTimeout(2000);
     }
 
     public Locator findRowContaining(String text) {
@@ -91,7 +88,7 @@ public class PlantsPage extends BasePage {
         page.onceDialog(Dialog::accept);
         row.locator("button.btn-outline-danger, button[title='Delete'], button:has(i.bi-trash)")
                 .first().click();
-        page.waitForTimeout(1500);
+        page.waitForLoadState();
     }
 
     public boolean isAddPlantButtonVisible() {
