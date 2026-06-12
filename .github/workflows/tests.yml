@@ -81,7 +81,8 @@ jobs:
           mvn clean test \
             -Dcucumber.filter.tags="${{ github.event.inputs.tags || '@215552U or @215565L or @215527A or @215564H' }}" \
             -Dallure.results.directory=allure-results \
-            -Dbase.url=http://localhost:8088
+            -Dbase.url=http://localhost:8088 \
+            -Dheadless=true  # <--- Added this line!
 
       # --- Allure Report Generation & Deployment ---
 
