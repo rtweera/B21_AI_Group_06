@@ -20,3 +20,6 @@ application.properties
 
 # Local run guide
 APP_STARTUP_AND_TEST_GUIDE.md
+
+application.properties
+qa-training-app.jar

@@ -1,6 +1,6 @@
 package pages;
 
-// import com.microsoft.playwright.Page;
+ import com.microsoft.playwright.Page;
 // import com.microsoft.playwright.Locator;
 // import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -62,6 +62,10 @@ public class PlantsPage extends BasePage {
         return page.locator("table tbody tr").count();
     }
 
+    public void searchPlant(String plantName) {
+        page.fill("input[name='name']", plantName);
+        page.click("button:has-text('Search')");
+    }
     /**
      * Type a name into the search box and click Search.
      * Waits 1 s for results to load.
