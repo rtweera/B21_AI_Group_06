@@ -113,7 +113,12 @@ jobs:
       - name: Install Allure 3
         if: always()
         run: |
-          npm install -g allure-commandline@3.11.0
+          npm install -g allure
+
+      - name: Verify Allure Version
+        if: always()
+        run: |
+          allure --version
 
       - name: Generate Allure 3 Report
         if: always()
