@@ -86,21 +86,39 @@ jobs:
 
       # --- Allure Report Generation & Deployment ---
 
-      - name: Get Allure History
-        uses: actions/checkout@v4
+#      - name: Get Allure History
+#        uses: actions/checkout@v4
+#        if: always()
+#        continue-on-error: true
+#        with:
+#          ref: gh-pages
+#          path: gh-pages
+#
+#      - name: Generate Allure Report
+#        uses: simple-elf/allure-report-action@master
+#        if: always()
+#        with:
+#          allure_results: allure-results
+#          allure_history: allure-history
+#          keep_reports: 20
+#          allure_version: '3.11.0'
+#
+#      - name: Deploy Allure Report to GitHub Pages
+#        uses: peaceiris/actions-gh-pages@v3
+#        if: always()
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: allure-history
+      - name: Install Allure 3
         if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+        run: |
+          npm install -g allure-commandline@3.11.0
 
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@master
+      - name: Generate Allure 3 Report
         if: always()
-        with:
-          allure_results: allure-results
-          allure_history: allure-history
-          keep_reports: 20
+        run: |
+          allure generate ./allure-results -o ./allure-report
 
       - name: Deploy Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -108,4 +126,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-report
