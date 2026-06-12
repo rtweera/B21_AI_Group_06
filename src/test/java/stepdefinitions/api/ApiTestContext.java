@@ -65,5 +65,6 @@ public class ApiTestContext {
         public int storedPlantId;
         public int stockBeforeSale;
         public int storedSaleId;
+        public int testSubCategoryId;
     }
 }

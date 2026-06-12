@@ -1,0 +1,134 @@
+name: UI & API Tests
+
+on:
+  # Automated Trigger: Only runs when code lands in the 'test' branch
+  push:
+    branches: [ "test" ]
+
+  # Manual Trigger: Allows you to run this on demand from the Actions tab
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Cucumber tag expression - controls which scenarios run'
+        required: false
+        default: '@215552U or @215565L or @215527A or @215564H'
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-22.04
+
+    # Spin up an ephemeral MySQL database for the backend
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: qa_training
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Install Playwright Browsers and Dependencies
+        run: mvn exec:java -e -D"exec.mainClass=com.microsoft.playwright.CLI" -D"exec.args=install --with-deps"
+
+      - name: Configure and Start Backend
+        run: |
+          cd app
+    
+          if [ ! -f application.properties ]; then
+            echo "Creating application.properties from example..."
+            cp application.properties.example application.properties
+            sed -i 's/<root password>/root/g' application.properties
+            sed -i 's/8080/8088/g' application.properties
+          fi
+          
+          echo "Starting backend jar..."
+          nohup java -jar qa-training-app.jar > backend.log 2>&1 &
+          
+          echo "Waiting for backend..."
+          # Added -L to curl to follow Spring Boot's 302 redirect
+          if ! timeout 60 bash -c 'while [[ "$(curl -s -L -o /dev/null -w ''%{http_code}'' http://localhost:8088/swagger-ui.html)" != "200" ]]; do sleep 2; done'; then
+            echo "❌ Backend failed to start or health check timed out."
+            echo "--- PRINTING BACKEND.LOG FOR DEBUGGING ---"
+            cat backend.log
+            exit 1
+          fi
+          
+          echo "✅ Backend is up and running!"
+
+      - name: Run Maven Tests
+        continue-on-error: true
+        run: |
+          mvn clean test \
+            -Dcucumber.filter.tags="${{ github.event.inputs.tags || '@215552U or @215565L or @215527A or @215564H' }}" \
+            -Dallure.results.directory=allure-results \
+            -Dbase.url=http://localhost:8088 \
+            -Dheadless=true  # <--- Added this line!
+
+      # --- Allure Report Generation & Deployment ---
+
+#      - name: Get Allure History
+#        uses: actions/checkout@v4
+#        if: always()
+#        continue-on-error: true
+#        with:
+#          ref: gh-pages
+#          path: gh-pages
+#
+#      - name: Generate Allure Report
+#        uses: simple-elf/allure-report-action@master
+#        if: always()
+#        with:
+#          allure_results: allure-results
+#          allure_history: allure-history
+#          keep_reports: 20
+#          allure_version: '3.11.0'
+#
+#      - name: Deploy Allure Report to GitHub Pages
+#        uses: peaceiris/actions-gh-pages@v3
+#        if: always()
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_branch: gh-pages
+#          publish_dir: allure-history
+      - name: Install Allure 3
+        if: always()
+        run: |
+          npm install -g allure
+
+      - name: Verify Allure Version
+        if: always()
+        run: |
+          allure --version
+
+      - name: Generate Allure 3 Report
+        if: always()
+        run: |
+          allure generate ./allure-results -o ./allure-report
+
+      - name: Deploy Allure Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report

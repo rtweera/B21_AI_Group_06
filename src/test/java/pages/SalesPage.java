@@ -83,7 +83,7 @@ public class SalesPage extends BasePage {
                 .locator("button.btn-outline-danger, button:has(i.bi-trash)")
                 .first().click();
 
-        page.waitForTimeout(1500);
+        page.waitForLoadState();
     }
 
     // Check if we are on the sales list page
@@ -102,11 +102,11 @@ public class SalesPage extends BasePage {
                 .trim();
     }
 
-    // Click the Cancel button on the Sell Plant page
+    // Click the Cancel button (works on both Sell Plant and Add Plant pages)
     public void clickCancelButton() {
         page.locator("a:has-text('Cancel'), button:has-text('Cancel')")
                 .first()
                 .click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 }
