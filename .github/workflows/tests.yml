@@ -54,11 +54,10 @@ jobs:
       - name: Configure and Start Backend
         run: |
           cd app
-          
+    
           if [ ! -f application.properties ]; then
             echo "Creating application.properties from example..."
             cp application.properties.example application.properties
-            # Replaces the placeholders with the actual values for the runner environment
             sed -i 's/<root password>/root/g' application.properties
             sed -i 's/8080/8088/g' application.properties
           fi
@@ -67,8 +66,15 @@ jobs:
           nohup java -jar qa-training-app.jar > backend.log 2>&1 &
           
           echo "Waiting for backend..."
-          timeout 60 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://localhost:8088/swagger-ui.html)" != "200" ]]; do sleep 2; done' || false
-          echo "Backend is up and running!"
+          # Added -L to curl to follow Spring Boot's 302 redirect
+          if ! timeout 60 bash -c 'while [[ "$(curl -s -L -o /dev/null -w ''%{http_code}'' http://localhost:8088/swagger-ui.html)" != "200" ]]; do sleep 2; done'; then
+            echo "❌ Backend failed to start or health check timed out."
+            echo "--- PRINTING BACKEND.LOG FOR DEBUGGING ---"
+            cat backend.log
+            exit 1
+          fi
+          
+          echo "✅ Backend is up and running!"
 
       - name: Run Maven Tests
         continue-on-error: true
