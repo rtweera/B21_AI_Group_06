@@ -17,8 +17,8 @@ public class PlantsPage {
     }
 
     public void searchPlant(String plantName) {
-        page.fill("input", plantName);
-        page.click("text=Search");
+        page.fill("input[name='name']", plantName);
+        page.click("button:has-text('Search')");
     }
 
     public void verifyPlantVisible(String plantName) {
@@ -29,9 +29,6 @@ public class PlantsPage {
         assertThat(plantRow).isVisible();
     }
 
-    public void verifyNoPlantsFound() {
-        assertThat(page.locator("text=No plants found")).isVisible();
-    }
 
     public void verifyAddPlantNotVisible() {
         assertThat(page.locator("text=Add a Plant")).not().isVisible();

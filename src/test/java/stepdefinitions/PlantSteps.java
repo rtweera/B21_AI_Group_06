@@ -1,12 +1,18 @@
 package stepdefinitions;
 
 import hooks.Hooks;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
 import pages.PlantsPage;
 
 public class PlantSteps {
 
-    PlantsPage plantsPage = new PlantsPage(Hooks.page);
+    private PlantsPage plantsPage;
+
+    @Before(value = "@UI", order = 3)
+    public void initPages() {
+        plantsPage = new PlantsPage(Hooks.page);
+    }
 
     @When("user navigates to Plants page")
     public void user_navigates_to_plants_page() {
@@ -16,6 +22,7 @@ public class PlantSteps {
     @When("user searches plant {string}")
     public void user_searches_plant(String plantName) {
         plantsPage.searchPlant(plantName);
+        System.out.println("PLANTS PAGE HTML AFTER SEARCH (" + plantName + "): " + Hooks.page.content());
     }
 
     @Then("searched plant {string} should be displayed")

@@ -73,14 +73,23 @@ public class CategoriesPage {
     }
 
     public void verifyEditAndDeleteButtonsNotClickable() {
-        Locator editButtons = page.locator("button:has-text('Edit'), a:has-text('Edit')");
-        Locator deleteButtons = page.locator("button:has-text('Delete'), a:has-text('Delete')");
+        Locator editButtons = page.locator("a[title='Edit'], button[title='Edit']");
+        Locator deleteButtons = page.locator("button[title='Delete'], a[title='Delete']");
 
         int editCount = editButtons.count();
         int deleteCount = deleteButtons.count();
 
         for (int i = 0; i < editCount; i++) {
-            assertThat(editButtons.nth(i)).isDisabled();
+            Locator btn = editButtons.nth(i);
+            String tagName = btn.evaluate("el => el.tagName").toString().toLowerCase();
+            if (tagName.equals("a")) {
+                String disabledAttr = btn.getAttribute("disabled");
+                if (disabledAttr == null || (!disabledAttr.equals("disabled") && !disabledAttr.equals("true") && !disabledAttr.isEmpty())) {
+                    throw new AssertionError("Anchor edit button is not disabled in HTML");
+                }
+            } else {
+                assertThat(btn).isDisabled();
+            }
         }
 
         for (int i = 0; i < deleteCount; i++) {

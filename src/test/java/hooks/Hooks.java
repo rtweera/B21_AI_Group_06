@@ -10,7 +10,7 @@ public class Hooks {
     public static Browser browser;
     public static Page page;
 
-    @Before
+    @Before(value = "@UI", order = 2)
     public void setup() {
         playwright = Playwright.create();
 
@@ -22,7 +22,7 @@ public class Hooks {
         page = browser.newPage();
     }
 
-    @After
+    @After("@UI")
     public void tearDown() {
         if (page != null) page.close();
         if (browser != null) browser.close();
