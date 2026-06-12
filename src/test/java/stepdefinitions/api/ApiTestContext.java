@@ -1,5 +1,9 @@
-package stepdefinitions;
+package stepdefinitions.api;
 
+import api.AuthApiClient;
+import api.CategoriesApiClient;
+import api.PlantsApiClient;
+import api.SalesApiClient;
 import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.APIResponse;
@@ -26,6 +30,10 @@ public class ApiTestContext {
                 new APIRequest.NewContextOptions()
                         .setBaseURL(ConfigReader.getBaseUrl())
                         .setExtraHTTPHeaders(Map.of("Content-Type", "application/json")));
+        state.auth = new AuthApiClient(state.api);
+        state.categories = new CategoriesApiClient(state.api);
+        state.plants = new PlantsApiClient(state.api);
+        state.sales = new SalesApiClient(state.api);
         CURRENT.set(state);
     }
 
@@ -41,6 +49,10 @@ public class ApiTestContext {
     public static final class State {
         public Playwright playwright;
         public APIRequestContext api;
+        public AuthApiClient auth;
+        public CategoriesApiClient categories;
+        public PlantsApiClient plants;
+        public SalesApiClient sales;
         public APIResponse lastResponse;
         public String lastBody;
         public String adminToken;

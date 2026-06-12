@@ -1,17 +1,21 @@
-package stepdefinitions;
+package stepdefinitions.api;
 
-import com.microsoft.playwright.options.RequestOptions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
-import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-public class ApiLoginSteps extends ApiStepSupport {
+/**
+ * Authentication API step definitions.
+ * Covers 215527A login/token scenarios and 215552U unauthenticated-access scenario.
+ */
+public class AuthApiSteps extends ApiStepSupport {
+
+    // ── Token acquisition steps ───────────────────────────────────────────────
+
     @When("I request an admin auth token")
     public void iRequestAnAdminAuthToken() {
         remember(login(adminUsername(), adminPassword()));
@@ -31,8 +35,10 @@ public class ApiLoginSteps extends ApiStepSupport {
 
     @When("I request an auth token with an empty body")
     public void iRequestAnAuthTokenWithAnEmptyBody() {
-        remember(ApiTestContext.context().api.post("/api/auth/login", RequestOptions.create().setData(Map.of())));
+        remember(ApiTestContext.context().auth.loginWithEmptyBody());
     }
+
+    // ── Pre-condition steps ───────────────────────────────────────────────────
 
     @Given("I have an admin API token")
     public void iHaveAnAdminApiToken() {
@@ -49,6 +55,13 @@ public class ApiLoginSteps extends ApiStepSupport {
         ApiTestContext.context().activeToken = ApiTestContext.context().userToken;
         assertNotNull(ApiTestContext.context().userToken, "Expected normal user auth token");
     }
+
+    @Given("I have no authentication token")
+    public void noAuthToken() {
+        System.out.println("[STEP] No authentication token will be sent");
+    }
+
+    // ── Assertion steps ───────────────────────────────────────────────────────
 
     @Then("the API response should contain an auth token")
     public void theApiResponseShouldContainAnAuthToken() {
@@ -67,5 +80,21 @@ public class ApiLoginSteps extends ApiStepSupport {
         int actual = ApiTestContext.context().lastResponse.status();
         assertEquals(actual, expected, "Expected HTTP " + expected + " but got " + actual);
         System.out.println("[PASS] Status is " + actual);
+    }
+
+    @Then("the unauthenticated response status should be 401")
+    public void unauthenticatedResponseShouldBe401() {
+        int status = ApiTestContext.context().lastResponse.status();
+        assertEquals(status, 401, "Expected 401 but got " + status);
+        System.out.println("[PASS] Endpoint is protected (401)");
+    }
+
+    // ── Unauthenticated access ────────────────────────────────────────────────
+
+    @When("I get categories without authentication")
+    public void getCategoriesNoAuth() {
+        System.out.println("[STEP] GET /api/categories (no auth)...");
+        remember(ApiTestContext.context().categories.getAllNoAuth());
+        System.out.println("[INFO] Status: " + ApiTestContext.context().lastResponse.status());
     }
 }

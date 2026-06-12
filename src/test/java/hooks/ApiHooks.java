@@ -3,7 +3,7 @@ package hooks;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import stepdefinitions.ApiTestContext;
+import stepdefinitions.api.ApiTestContext;
 
 public class ApiHooks {
 
