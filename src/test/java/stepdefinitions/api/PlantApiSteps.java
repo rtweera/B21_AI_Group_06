@@ -54,11 +54,12 @@ public class PlantApiSteps extends ApiStepSupport {
             state.adminToken = extractToken();
             assertNotNull(state.adminToken, "Setup: could not obtain admin token to ensure plant exists");
         }
-        System.out.println("[STEP] Ensuring plant '" + name + "' exists under category " + categoryId);
+        int catId = state.testSubCategoryId > 0 ? state.testSubCategoryId : categoryId;
+        System.out.println("[STEP] Ensuring plant '" + name + "' exists under category " + catId);
         APIResponse getAll = state.plants.getAll(state.adminToken);
         if (!getAll.text().contains("\"name\":\"" + name + "\"")) {
             System.out.println("[INFO] Plant '" + name + "' not found – creating it...");
-            APIResponse created = state.plants.create(categoryId, name, 150.0, 25, state.adminToken);
+            APIResponse created = state.plants.create(catId, name, 150.0, 25, state.adminToken);
             System.out.println("[INFO] Create response (" + created.status() + "): " + created.text());
         } else {
             System.out.println("[INFO] Plant '" + name + "' already exists.");
