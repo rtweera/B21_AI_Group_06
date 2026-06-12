@@ -58,6 +58,9 @@ jobs:
           if [ ! -f application.properties ]; then
             echo "Creating application.properties from example..."
             cp application.properties.example application.properties
+            # Replaces the placeholders with the actual values for the runner environment
+            sed -i 's/<root password>/root/g' application.properties
+            sed -i 's/8080/8088/g' application.properties
           fi
           
           echo "Starting backend jar..."
