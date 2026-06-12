@@ -41,8 +41,13 @@ public class SalesApiSteps {
     public void useExistingPlant(int plantId) {
         System.out.println("[STEP] Using existing plant id=" + plantId + "...");
         storedPlantId = plantId;
-        // Read and remember the current stock so we can verify the reduction later
-        stockBeforeSale = api.getPlantStock(storedPlantId);
+        int currentStock = api.getPlantStock(storedPlantId);
+        if (currentStock < 10) {
+            System.out.println("[INFO] Plant id=" + plantId + " has low stock (" + currentStock + "). Replenishing to 20...");
+            api.setPlantStock(storedPlantId, 20);
+            currentStock = api.getPlantStock(storedPlantId);
+        }
+        stockBeforeSale = currentStock;
         System.out.println("[PASS] Plant id=" + plantId + " has stock " + stockBeforeSale);
     }
 

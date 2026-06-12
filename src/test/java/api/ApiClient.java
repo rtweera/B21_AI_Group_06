@@ -67,6 +67,10 @@ public class ApiClient {
         return request.delete(endpoint, withAuth());
     }
 
+    public APIResponse put(String endpoint, Object body) {
+        return request.put(endpoint, withAuth().setData(body));
+    }
+
     // ─── HELPERS TO CREATE TEST DATA ──────────────────────
     public int createCategory(String name) {
         Map<String, Object> body = new HashMap<>();
@@ -92,6 +96,27 @@ public class ApiClient {
     public int getPlantStock(int plantId) {
         APIResponse res = get("/api/plants/" + plantId);
         return JsonParser.parseString(res.text()).getAsJsonObject().get("quantity").getAsInt();
+    }
+
+    public void setPlantStock(int plantId, int newQuantity) {
+        APIResponse getRes = get("/api/plants/" + plantId);
+        JsonObject plantJson = JsonParser.parseString(getRes.text()).getAsJsonObject();
+
+        JsonObject putBody = new JsonObject();
+        putBody.addProperty("id", plantId);
+        putBody.addProperty("name", plantJson.get("name").getAsString());
+        putBody.addProperty("price", plantJson.get("price").getAsDouble());
+        putBody.addProperty("quantity", newQuantity);
+
+        JsonObject categoryObj = new JsonObject();
+        if (plantJson.has("categoryId")) {
+            categoryObj.addProperty("id", plantJson.get("categoryId").getAsInt());
+        } else if (plantJson.has("category")) {
+            categoryObj.addProperty("id", plantJson.getAsJsonObject("category").get("id").getAsInt());
+        }
+        putBody.add("category", categoryObj);
+
+        put("/api/plants/" + plantId, putBody);
     }
 
     // Create a sale and return its id
