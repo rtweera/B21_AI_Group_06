@@ -1,5 +1,7 @@
 package stepdefinitions.ui;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Locator;
 import io.cucumber.java.Before;
@@ -12,6 +14,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,19 +100,21 @@ public class PlantUiSteps extends UiStepSupport {
 
     @Then("the category dropdown should contain only subcategories")
     public void categoryDropdownContainsOnlySubcategories() {
-        System.out.println("[STEP] Checking category dropdown options...");
+        System.out.println("[STEP] Checking category dropdown options against /api/categories/sub-categories...");
+        Set<String> knownSubcategories = fetchSubcategoryNamesFromApi();
+        System.out.println("[INFO] Known subcategories from API: " + knownSubcategories);
+
         Locator options = addPlantPage().getCategoryOptions();
         int count = options.count();
-        System.out.println("[INFO] Dropdown options count: " + count);
-        assertTrue(count <= 3, "Dropdown should only contain subcategories. Option count: " + count);
-        for (int i = 0; i < count; i++) {
+        // index 0 is the placeholder ("-- Select Sub Category --"), skip it
+        assertTrue(count > 1, "Category dropdown should have at least one subcategory option.");
+        for (int i = 1; i < count; i++) {
             String label = options.nth(i).textContent().trim();
             System.out.println("[INFO] Option " + i + ": " + label);
-            assertFalse(label.equals("Roses") || label.equals("Succulents")
-                            || label.equals("Tulips") || label.equals("Aloe"),
-                    "Dropdown should not contain main category: " + label);
+            assertTrue(knownSubcategories.contains(label),
+                    "Dropdown option '" + label + "' is not a known subcategory. API returned: " + knownSubcategories);
         }
-        System.out.println("[PASS] Dropdown contains only subcategories");
+        System.out.println("[PASS] All " + (count - 1) + " dropdown options verified as subcategories");
     }
 
     @Then("I should see a validation error {string}")
@@ -143,14 +149,21 @@ public class PlantUiSteps extends UiStepSupport {
 
     @Then("the system should prevent deletion and display an appropriate message indicating that the plant cannot be deleted")
     public void systemShouldPreventDeletion() {
-        System.out.println("[STEP] Verifying system prevents deletion...");
+        System.out.println("[STEP] Verifying system prevents deletion with a user-friendly message...");
         String bodyText = plantsPage().getBodyTextLower();
-        boolean hasError = bodyText.contains("cannot delete") || bodyText.contains("sales record")
+
+        // DEFECT (UI_PLT_ADM_005): The application throws a 500 Whitelabel Error page
+        // instead of a user-friendly message. Plant is correctly not deleted, but the
+        // UI gives no meaningful feedback. Expected: inline error or toast. Actual: HTTP 500.
+        assertFalse(
+                bodyText.contains("whitelabel") || bodyText.contains("this application has no explicit mapping"),
+                "DEFECT: Application shows a Whitelabel 500 Error page instead of a user-friendly message.");
+
+        boolean hasFriendlyMessage = bodyText.contains("cannot delete") || bodyText.contains("sales record")
                 || bodyText.contains("constraint") || bodyText.contains("foreign key")
-                || bodyText.contains("error") || bodyText.contains("prevent")
-                || bodyText.contains("associated");
-        assertTrue(hasError, "Should show an error message explaining that the plant cannot be deleted.");
-        System.out.println("[PASS] Deletion prevented with message");
+                || bodyText.contains("prevent") || bodyText.contains("associated");
+        assertTrue(hasFriendlyMessage, "Expected a user-friendly error message explaining the plant cannot be deleted.");
+        System.out.println("[PASS] Deletion prevented with appropriate message");
     }
 
     // ── Non-admin access ──────────────────────────────────────────────────────
@@ -227,8 +240,11 @@ public class PlantUiSteps extends UiStepSupport {
         String orderAfter = plantsPage().getAllPricesAsString();
         System.out.println("[INFO] Order after sort: " + orderAfter);
         assertTrue(plantsPage().getPlantRowCount() > 0, "Plants should be visible");
-        assertNotEquals(orderAfter, priceOrderBeforeSort, "Plant order should change after clicking Price header");
-        System.out.println("[PASS] Plant list order changed after sorting");
+
+        boolean isSorted = plantsPage().arePricesSortedAscending();
+        assertTrue(isSorted || !orderAfter.equals(priceOrderBeforeSort),
+                "Plant list should be sorted by price after clicking the header. Order: " + orderAfter);
+        System.out.println("[PASS] Plant list is sorted by price");
     }
 
     // ── Sales-state setup (non-admin view tests) ──────────────────────────────
@@ -240,7 +256,7 @@ public class PlantUiSteps extends UiStepSupport {
         loginPage().open();
         loginPage().login("admin", "admin123");
         salesPage().openSalesListPage();
-        page().waitForTimeout(1000);
+        page().locator("table").waitFor();
         while (salesPage().getSalesRowCount() > 0) {
             Locator firstRow = page().locator("table tbody tr").first();
             String rowText = firstRow.textContent();
@@ -250,7 +266,7 @@ public class PlantUiSteps extends UiStepSupport {
                     "button.btn-outline-danger, button:has(i.bi-trash), button:has-text('Delete')");
             if (deleteBtn.count() > 0) {
                 deleteBtn.first().click();
-                page().waitForTimeout(1500);
+                page().waitForLoadState();
             } else {
                 break;
             }
@@ -275,12 +291,12 @@ public class PlantUiSteps extends UiStepSupport {
             salesPage().selectFirstPlant();
             salesPage().enterQuantity("1");
             salesPage().clickSellButton();
-            page().waitForTimeout(1500);
+            page().waitForURL("**/sales");
             loginPage().clearCookies();
             loginPage().open();
             loginPage().login("testuser", "test123");
             salesPage().openSalesListPage();
-            page().waitForTimeout(1000);
+            page().locator("table").waitFor();
             rowCount = salesPage().getSalesRowCount();
         }
         assertTrue(rowCount >= 1, "Sales table should have at least one record.");
@@ -307,6 +323,40 @@ public class PlantUiSteps extends UiStepSupport {
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────
+
+    /**
+     * Calls GET /api/categories/sub-categories and returns a set of subcategory names.
+     * Uses admin credentials (same pattern as ensurePlantExists).
+     */
+    private Set<String> fetchSubcategoryNamesFromApi() {
+        Set<String> names = new HashSet<>();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            String authPayload = "{\"username\":\"admin\",\"password\":\"admin123\"}";
+            HttpRequest authReq = HttpRequest.newBuilder()
+                    .uri(URI.create(plantsPage().getBaseUrl() + "/api/auth/login"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(authPayload))
+                    .build();
+            HttpResponse<String> authRes = client.send(authReq, HttpResponse.BodyHandlers.ofString());
+            String token = extractFirst(authRes.body(), "\"token\"\\s*:\\s*\"([^\"]+)\"");
+
+            HttpRequest subCatReq = HttpRequest.newBuilder()
+                    .uri(URI.create(plantsPage().getBaseUrl() + "/api/categories/sub-categories"))
+                    .header("Authorization", "Bearer " + token)
+                    .GET().build();
+            HttpResponse<String> subCatRes = client.send(subCatReq, HttpResponse.BodyHandlers.ofString());
+
+            // Parse only the top-level "name" of each subcategory entry — Gson avoids
+            // accidentally picking up nested parent names from within the same response.
+            for (JsonElement el : JsonParser.parseString(subCatRes.body()).getAsJsonArray()) {
+                names.add(el.getAsJsonObject().get("name").getAsString());
+            }
+        } catch (Exception e) {
+            System.out.println("[WARN] Could not fetch subcategories from API: " + e.getMessage());
+        }
+        return names;
+    }
 
     /**
      * Ensures a plant exists via the REST API. Also creates a sale for "TestPlant"

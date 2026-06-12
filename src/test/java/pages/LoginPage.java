@@ -61,7 +61,7 @@ public class LoginPage extends BasePage{
 
     public void clickLogout() {
         page.locator("a:has-text('Logout'), button:has-text('Logout'), [href*='logout']").first().click();
-        page.waitForTimeout(1000);
+        page.waitForURL("**/login");
     }
 
     public boolean isLogoutMessageVisible() {

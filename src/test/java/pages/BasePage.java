@@ -27,7 +27,6 @@ public abstract class BasePage {
 
     public void goToPath(String path) {
         navigate(path);
-        page.waitForTimeout(1000);
     }
 
     public boolean isOnLoginPage() {

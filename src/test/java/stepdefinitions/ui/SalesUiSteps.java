@@ -45,7 +45,7 @@ public class SalesUiSteps extends UiStepSupport {
     public void iClickSellButton() {
         System.out.println("[STEP] Clicking Sell button...");
         salesPage().clickSellButton();
-        page().waitForTimeout(2000);
+        page().waitForLoadState();
         System.out.println("[PASS] Clicked Sell button");
     }
 
@@ -89,7 +89,7 @@ public class SalesUiSteps extends UiStepSupport {
             salesPage().selectFirstPlant();
             salesPage().enterQuantity("1");
             salesPage().clickSellButton();
-            page().waitForTimeout(2000);
+            page().waitForURL("**/sales");
         }
         salesPage().openSalesListPage();
         assertTrue(salesPage().getSalesRowCount() > 0, "At least one sale should exist");
@@ -135,7 +135,7 @@ public class SalesUiSteps extends UiStepSupport {
             salesPage().selectFirstPlant();
             salesPage().enterQuantity("1");
             salesPage().clickSellButton();
-            page().waitForTimeout(2000);
+            page().waitForURL("**/sales");
             salesPage().openSalesListPage();
         }
         assertTrue(salesPage().getSalesRowCount() >= 2, "Should have at least 2 sales");

@@ -17,7 +17,7 @@ public class PlantsPage extends BasePage {
 
     public void goToPlants() {
         open();
-        page.waitForTimeout(500);
+        page.locator("table").waitFor();
     }
 
     public int getPlantRowCount() {
@@ -27,13 +27,13 @@ public class PlantsPage extends BasePage {
     public void searchPlant(String plantName) {
         page.fill("input[name='name']", plantName);
         page.locator("button:has-text('Search')").first().click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 
     public void searchByName(String name) {
         page.fill("input[name='name']", name);
         page.locator("button:has-text('Search')").first().click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 
     public void verifyPlantVisible(String plantName) {
@@ -62,8 +62,8 @@ public class PlantsPage extends BasePage {
     }
 
     public void clickPriceColumnHeader() {
-        page.locator("th:has-text('Price'), th[data-field='price']").first().click();
-        page.waitForTimeout(1000);
+        page.locator("th a:has-text('Price')").first().click();
+        page.waitForLoadState();
     }
 
     public Locator findRowContaining(String text) {
@@ -88,7 +88,7 @@ public class PlantsPage extends BasePage {
         page.onceDialog(Dialog::accept);
         row.locator("button.btn-outline-danger, button[title='Delete'], button:has(i.bi-trash)")
                 .first().click();
-        page.waitForTimeout(1500);
+        page.waitForLoadState();
     }
 
     public boolean isAddPlantButtonVisible() {
@@ -124,5 +124,27 @@ public class PlantsPage extends BasePage {
 
     public boolean isOnPath(String pathFragment) {
         return page.url().contains(pathFragment);
+    }
+
+    public boolean arePricesSortedAscending() {
+        int rows = getPlantRowCount();
+        double previous = -1;
+        for (int i = 0; i < rows; i++) {
+            String priceText = getPriceFromRow(i).replaceAll("[^0-9.]", "");
+            if (priceText.isEmpty()) continue;
+            double current = Double.parseDouble(priceText);
+            if (current < previous) return false;
+            previous = current;
+        }
+        return true;
+    }
+
+    public String getPriceFromRow(int rowIndex) {
+        return page.locator("table tbody tr")
+                .nth(rowIndex)
+                .locator("td")
+                .nth(2)
+                .textContent()
+                .trim();
     }
 }
