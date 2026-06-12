@@ -1,1 +1,1 @@
-{"id":"fd68987f86c01f78875d0ef0ee904f35","fullName":"src/test/resources/features/api/categories_api.feature:49","name":"API_DEL_CAT_ADM_001 - Verify admin can delete category","status":"passed","testResultsByEnv":{"default":"3dc5dd3289633e63ba2090f1f64ff8f7"}}
+{"id":"fd68987f86c01f78875d0ef0ee904f35","fullName":"src/test/resources/features/api/categories_api.feature:49","name":"API_DEL_CAT_ADM_001 - Verify admin can delete category","status":"passed","testResultsByEnv":{"default":"8f1da90a051607e82306f1b3bdd486bd"}}

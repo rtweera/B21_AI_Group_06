@@ -1,1 +1,1 @@
-{"id":"d7cd5950377232aabec072a98a9f78ba","fullName":"src/test/resources/features/ui/plants_ui.feature:128","name":"UI_PLT_USR_010 - User can sort the plant list by price","status":"passed","testResultsByEnv":{"default":"b0d71957ac37b85bfa22798f19954566"}}
+{"id":"d7cd5950377232aabec072a98a9f78ba","fullName":"src/test/resources/features/ui/plants_ui.feature:128","name":"UI_PLT_USR_010 - User can sort the plant list by price","status":"passed","testResultsByEnv":{"default":"92d87f73dd5e3d613fddfc96f4f25cef"}}

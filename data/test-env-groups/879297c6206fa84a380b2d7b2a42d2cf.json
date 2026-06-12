@@ -1,1 +1,1 @@
-{"id":"879297c6206fa84a380b2d7b2a42d2cf","fullName":"src/test/resources/features/ui/sales_ui.feature:57","name":"UI_SLS_USR_001 - Unauthenticated user accessing sales is redirected to login","status":"passed","testResultsByEnv":{"default":"6a2bba12268cbffb0fab4734a762a086"}}
+{"id":"879297c6206fa84a380b2d7b2a42d2cf","fullName":"src/test/resources/features/ui/sales_ui.feature:57","name":"UI_SLS_USR_001 - Unauthenticated user accessing sales is redirected to login","status":"passed","testResultsByEnv":{"default":"cac871e3396b6eb38094b3309454a3ba"}}

@@ -1,1 +1,1 @@
-{"id":"f61f714bc940b275752d0af125671adb","fullName":"src/test/resources/features/ui/auth_ui.feature:30","name":"UI_AUTH_USR_002 - Normal user login with incorrect password is prohibited","status":"passed","testResultsByEnv":{"default":"c01c54819b84d2c04fe0528e9ed1dc37"}}
+{"id":"f61f714bc940b275752d0af125671adb","fullName":"src/test/resources/features/ui/auth_ui.feature:30","name":"UI_AUTH_USR_002 - Normal user login with incorrect password is prohibited","status":"passed","testResultsByEnv":{"default":"35385c2e3e5dd6384e947120152a4f3d"}}

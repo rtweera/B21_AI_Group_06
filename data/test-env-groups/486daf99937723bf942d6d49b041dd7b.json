@@ -1,1 +1,1 @@
-{"id":"486daf99937723bf942d6d49b041dd7b","fullName":"src/test/resources/features/api/categories_api.feature:9","name":"API_GET_CAT_ADM_001 - Admin can get all categories","status":"passed","testResultsByEnv":{"default":"454b845fbe750157eaaeb56f2ed27c29"}}
+{"id":"486daf99937723bf942d6d49b041dd7b","fullName":"src/test/resources/features/api/categories_api.feature:9","name":"API_GET_CAT_ADM_001 - Admin can get all categories","status":"passed","testResultsByEnv":{"default":"db91cb4467f961c5a4a00383160730e3"}}

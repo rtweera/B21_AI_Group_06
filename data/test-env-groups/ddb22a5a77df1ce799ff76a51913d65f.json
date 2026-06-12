@@ -1,1 +1,1 @@
-{"id":"ddb22a5a77df1ce799ff76a51913d65f","fullName":"src/test/resources/features/api/categories_api.feature:92","name":"API_PUT_CAT_USR_001 - Verify non-admin cannot update category","status":"passed","testResultsByEnv":{"default":"c5c2773a34b3a875713babb96a5487f3"}}
+{"id":"ddb22a5a77df1ce799ff76a51913d65f","fullName":"src/test/resources/features/api/categories_api.feature:92","name":"API_PUT_CAT_USR_001 - Verify non-admin cannot update category","status":"passed","testResultsByEnv":{"default":"fb7950616a3ee2caf0ff3571ef7d1009"}}
