@@ -102,11 +102,11 @@ public class SalesPage extends BasePage {
                 .trim();
     }
 
-    // Click the Cancel button on the Sell Plant page
+    // Click the Cancel button (works on both Sell Plant and Add Plant pages)
     public void clickCancelButton() {
         page.locator("a:has-text('Cancel'), button:has-text('Cancel')")
                 .first()
                 .click();
-        page.waitForURL("**/sales");
+        page.waitForLoadState();
     }
 }
