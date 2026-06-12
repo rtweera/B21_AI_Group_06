@@ -1,1 +1,1 @@
-{"id":"5728ea4675e9470297c460ea893864f5","fullName":"src/test/resources/features/api/sales_api.feature:9","name":"API_POST_SLS_ADM_001 - Admin creates a sale and plant stock is reduced","status":"broken","testResultsByEnv":{"default":"949c60106a9abb24f32533dc31f01a95"}}
+{"id":"5728ea4675e9470297c460ea893864f5","fullName":"src/test/resources/features/api/sales_api.feature:9","name":"API_POST_SLS_ADM_001 - Admin creates a sale and plant stock is reduced","status":"broken","testResultsByEnv":{"default":"394d27080b06ac93b828b7be9a67f669"}}

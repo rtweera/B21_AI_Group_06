@@ -1,1 +1,1 @@
-{"id":"6638561d161c2ddff1e2d73def9e4537","fullName":"src/test/resources/features/ui/categories_ui.feature:64","name":"UI_CAT_ADM_008 - Verify admin can create sub category","status":"passed","testResultsByEnv":{"default":"94af04929bb0e4cb48da123f5b81d21f"}}
+{"id":"6638561d161c2ddff1e2d73def9e4537","fullName":"src/test/resources/features/ui/categories_ui.feature:64","name":"UI_CAT_ADM_008 - Verify admin can create sub category","status":"passed","testResultsByEnv":{"default":"cec4626c7b1ffb5469d6c6f761e21027"}}

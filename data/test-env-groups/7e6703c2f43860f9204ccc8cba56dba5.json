@@ -1,1 +1,1 @@
-{"id":"7e6703c2f43860f9204ccc8cba56dba5","fullName":"src/test/resources/features/ui/auth_ui.feature:24","name":"UI_AUTH_USR_001 - Normal user can log in with correct credentials","status":"passed","testResultsByEnv":{"default":"ef52eaf3a8820806b35c352d49b78a41"}}
+{"id":"7e6703c2f43860f9204ccc8cba56dba5","fullName":"src/test/resources/features/ui/auth_ui.feature:24","name":"UI_AUTH_USR_001 - Normal user can log in with correct credentials","status":"passed","testResultsByEnv":{"default":"9108cea3cb7f1d235ec898b53d6ea646"}}

@@ -1,1 +1,1 @@
-{"id":"f7a05fa06f163a569780494ed3ae7201","fullName":"src/test/resources/features/api/categories_api.feature:81","name":"API_POST_CAT_USR_001 - Normal user cannot create a category","status":"passed","testResultsByEnv":{"default":"bc49758eef40dfdba64f6057d9ebd830"}}
+{"id":"f7a05fa06f163a569780494ed3ae7201","fullName":"src/test/resources/features/api/categories_api.feature:81","name":"API_POST_CAT_USR_001 - Normal user cannot create a category","status":"passed","testResultsByEnv":{"default":"7cfe4d70bc0d5dd224553c621ecb72b9"}}

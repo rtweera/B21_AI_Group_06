@@ -1,1 +1,1 @@
-{"id":"84435489147f255463057eaf75ed5def","fullName":"src/test/resources/features/api/auth_api.feature:27","name":"API_POST_AUTH_USR_003 - Login request with an empty body fails","status":"passed","testResultsByEnv":{"default":"f278dd55946631cc7eca10f200a0378b"}}
+{"id":"84435489147f255463057eaf75ed5def","fullName":"src/test/resources/features/api/auth_api.feature:27","name":"API_POST_AUTH_USR_003 - Login request with an empty body fails","status":"passed","testResultsByEnv":{"default":"6633fe6fe19173d09bcc6d544c4116d0"}}

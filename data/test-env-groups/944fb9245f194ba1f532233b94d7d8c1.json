@@ -1,1 +1,1 @@
-{"id":"944fb9245f194ba1f532233b94d7d8c1","fullName":"src/test/resources/features/ui/auth_ui.feature:36","name":"UI_AUTH_USR_003 - Normal user login with empty password is prohibited","status":"passed","testResultsByEnv":{"default":"d5eee4de23cbce83250c6a7e89c57a58"}}
+{"id":"944fb9245f194ba1f532233b94d7d8c1","fullName":"src/test/resources/features/ui/auth_ui.feature:36","name":"UI_AUTH_USR_003 - Normal user login with empty password is prohibited","status":"passed","testResultsByEnv":{"default":"594e37bc3a377e247c2a665c0fc31281"}}

@@ -1,1 +1,1 @@
-{"id":"baf185c3b6cf498fbd05b43e551187cc","fullName":"src/test/resources/features/api/categories_api.feature:42","name":"API_PUT_CAT_ADM_001 - Verify admin can update category","status":"passed","testResultsByEnv":{"default":"6e79ced6f2529a22a56a361516aa112d"}}
+{"id":"baf185c3b6cf498fbd05b43e551187cc","fullName":"src/test/resources/features/api/categories_api.feature:42","name":"API_PUT_CAT_ADM_001 - Verify admin can update category","status":"passed","testResultsByEnv":{"default":"968e6b88cfdb173095023e17e93d38f3"}}

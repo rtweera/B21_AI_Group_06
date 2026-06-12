@@ -1,1 +1,1 @@
-{"id":"dc682e97f7db8338acf1dbdb50e8f7b8","fullName":"src/test/resources/features/ui/plants_ui.feature:27","name":"UI_PLT_ADM_003 - Verify that category in plants page is a subcategory","status":"failed","testResultsByEnv":{"default":"a7f900cd49bb928f6e17fa90879314e3"}}
+{"id":"dc682e97f7db8338acf1dbdb50e8f7b8","fullName":"src/test/resources/features/ui/plants_ui.feature:27","name":"UI_PLT_ADM_003 - Verify that category in plants page is a subcategory","status":"passed","testResultsByEnv":{"default":"fb75fd09e078dd0c3f60646599f3b88a"}}

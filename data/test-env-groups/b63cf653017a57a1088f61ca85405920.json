@@ -1,1 +1,1 @@
-{"id":"b63cf653017a57a1088f61ca85405920","fullName":"src/test/resources/features/ui/sales_ui.feature:30","name":"UI_SLS_ADM_003 - Admin deletes a sale record successfully","status":"passed","testResultsByEnv":{"default":"6f536cc1ca39af6762555824a2deb7d2"}}
+{"id":"b63cf653017a57a1088f61ca85405920","fullName":"src/test/resources/features/ui/sales_ui.feature:30","name":"UI_SLS_ADM_003 - Admin deletes a sale record successfully","status":"passed","testResultsByEnv":{"default":"c0c8bb28b0aa8a65c72a803225d994bb"}}
