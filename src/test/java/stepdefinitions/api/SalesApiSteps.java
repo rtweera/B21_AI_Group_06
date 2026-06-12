@@ -1,5 +1,7 @@
 package stepdefinitions.api;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.microsoft.playwright.APIResponse;
@@ -40,6 +42,10 @@ public class SalesApiSteps extends ApiStepSupport {
     public void useExistingPlant(int plantId) {
         System.out.println("[STEP] Using existing plant id=" + plantId + "...");
         ApiTestContext.State s = ApiTestContext.context();
+        if (s.plants.getById(plantId, s.adminToken).status() != 200) {
+            System.out.println("[INFO] Plant id=" + plantId + " not found. Locating a usable plant...");
+            plantId = findOrCreatePlant(s);
+        }
         s.storedPlantId = plantId;
         int currentStock = s.plants.getQuantity(plantId, s.adminToken);
         if (currentStock < 10) {
@@ -49,6 +55,31 @@ public class SalesApiSteps extends ApiStepSupport {
         }
         s.stockBeforeSale = currentStock;
         System.out.println("[PASS] Plant id=" + plantId + " stock=" + currentStock);
+    }
+
+    private int findOrCreatePlant(ApiTestContext.State s) {
+        com.microsoft.playwright.APIResponse all = s.plants.getAll(s.adminToken);
+        if (all.status() == 200) {
+            JsonElement parsed = JsonParser.parseString(all.text());
+            JsonArray plants = parsed.isJsonArray() ? parsed.getAsJsonArray()
+                    : (parsed.getAsJsonObject().has("content")
+                            ? parsed.getAsJsonObject().getAsJsonArray("content") : null);
+            if (plants != null && plants.size() > 0) {
+                int id = plants.get(0).getAsJsonObject().get("id").getAsInt();
+                System.out.println("[INFO] Using first available plant id=" + id);
+                return id;
+            }
+        }
+        int catId = s.testSubCategoryId > 0 ? s.testSubCategoryId : 1;
+        String name = "SalesTestPlant_" + Long.toString(System.nanoTime(), 36);
+        com.microsoft.playwright.APIResponse res = s.plants.create(catId, name, 50.0, 100, s.adminToken);
+        if (res.status() == 200 || res.status() == 201) {
+            int id = JsonParser.parseString(res.text()).getAsJsonObject().get("id").getAsInt();
+            System.out.println("[INFO] Created plant id=" + id + " for sales testing");
+            return id;
+        }
+        throw new RuntimeException("Cannot find or create a plant for sales testing. Create status: "
+                + res.status() + " body: " + res.text());
     }
 
     @When("I create a sale for that plant with quantity {int}")

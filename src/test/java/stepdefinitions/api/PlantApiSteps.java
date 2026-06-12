@@ -89,7 +89,8 @@ public class PlantApiSteps extends ApiStepSupport {
         ApiTestContext.State state = ApiTestContext.context();
         System.out.println("[STEP] Creating a plant to capture its ID...");
         String name = uniquePlantName();
-        APIResponse response = state.plants.create(5, name, 10.0, 20, state.adminToken);
+        int catId = state.testSubCategoryId > 0 ? state.testSubCategoryId : 5;
+        APIResponse response = state.plants.create(catId, name, 10.0, 20, state.adminToken);
         assertEquals(response.status(), 201, "Pre-condition: plant creation failed. Body: " + response.text());
         remember(response);
         Long id = extractId();
@@ -102,11 +103,12 @@ public class PlantApiSteps extends ApiStepSupport {
 
     @When("I create a unique plant under category {int} with price {double} and quantity {int}")
     public void iCreateAUniquePlantUnderCategoryWithPriceAndQuantity(int categoryId, double price, int quantity) {
-        String name = uniquePlantName();
-        System.out.println("[STEP] Creating plant '" + name + "' in category " + categoryId
-                + " price=" + price + " qty=" + quantity);
         ApiTestContext.State state = ApiTestContext.context();
-        APIResponse response = state.plants.create(categoryId, name, price, quantity, state.adminToken);
+        int catId = state.testSubCategoryId > 0 ? state.testSubCategoryId : categoryId;
+        String name = uniquePlantName();
+        System.out.println("[STEP] Creating plant '" + name + "' in category " + catId
+                + " price=" + price + " qty=" + quantity);
+        APIResponse response = state.plants.create(catId, name, price, quantity, state.adminToken);
         remember(response);
         state.createdCategoryName = name;
         System.out.println("[API] " + response.status() + " → " + lastBody());
@@ -114,10 +116,11 @@ public class PlantApiSteps extends ApiStepSupport {
 
     @When("I create a plant named {string} under category {int} with price {double} and quantity {int}")
     public void iCreateAPlantNamedUnderCategoryWithPriceAndQuantity(String name, int categoryId, double price, int quantity) {
-        System.out.println("[STEP] Creating plant '" + name + "' in category " + categoryId
-                + " price=" + price + " qty=" + quantity);
         ApiTestContext.State state = ApiTestContext.context();
-        APIResponse response = state.plants.create(categoryId, name, price, quantity, state.adminToken);
+        int catId = state.testSubCategoryId > 0 ? state.testSubCategoryId : categoryId;
+        System.out.println("[STEP] Creating plant '" + name + "' in category " + catId
+                + " price=" + price + " qty=" + quantity);
+        APIResponse response = state.plants.create(catId, name, price, quantity, state.adminToken);
         remember(response);
         System.out.println("[API] " + response.status() + " → " + lastBody());
     }
@@ -185,9 +188,10 @@ public class PlantApiSteps extends ApiStepSupport {
 
     @When("I get plants for category id {int}")
     public void getPlantsForCategory(int categoryId) {
-        System.out.println("[STEP] GET /api/plants/category/" + categoryId);
         ApiTestContext.State s = ApiTestContext.context();
-        remember(s.plants.getByCategory(categoryId, s.activeToken));
+        int catId = s.testSubCategoryId > 0 ? s.testSubCategoryId : categoryId;
+        System.out.println("[STEP] GET /api/plants/category/" + catId);
+        remember(s.plants.getByCategory(catId, s.activeToken));
         System.out.println("[INFO] Status: " + s.lastResponse.status());
     }
 
@@ -203,8 +207,10 @@ public class PlantApiSteps extends ApiStepSupport {
 
     @When("I create a plant using the full Swagger example body under category {int}")
     public void iCreateAPlantUsingTheFullSwaggerExampleBodyUnderCategory(int categoryId) {
+        ApiTestContext.State state = ApiTestContext.context();
+        int catId = state.testSubCategoryId > 0 ? state.testSubCategoryId : categoryId;
         String uniqueName = uniquePlantName();
-        System.out.println("[STEP] POST /api/plants/category/" + categoryId
+        System.out.println("[STEP] POST /api/plants/category/" + catId
                 + " with full Swagger example body (name=" + uniqueName + ")");
 
         // Exact body the Swagger UI generates as its example, including optional id/category fields.
@@ -221,8 +227,7 @@ public class PlantApiSteps extends ApiStepSupport {
                 + "}"
                 + "}";
 
-        ApiTestContext.State state = ApiTestContext.context();
-        remember(state.plants.createWithRawBody(categoryId, fullBody, state.adminToken));
+        remember(state.plants.createWithRawBody(catId, fullBody, state.adminToken));
         System.out.println("[API] " + state.lastResponse.status() + " → " + lastBody());
     }
 
@@ -257,12 +262,14 @@ public class PlantApiSteps extends ApiStepSupport {
 
     @Then("the API response body should contain category id {int}")
     public void theApiResponseBodyShouldContainCategoryId(int categoryId) {
+        ApiTestContext.State state = ApiTestContext.context();
+        int expectedId = state.testSubCategoryId > 0 ? state.testSubCategoryId : categoryId;
         String body = lastBody();
         boolean hasCategoryKey = body.contains("\"category\"") || body.contains("\"categoryId\"");
-        boolean hasId = body.contains("\"id\":" + categoryId);
+        boolean hasId = body.contains("\"id\":" + expectedId);
         assertTrue(hasCategoryKey && hasId,
-                "Expected category id " + categoryId + " in response body: " + body);
-        System.out.println("[PASS] Category id " + categoryId + " found in response");
+                "Expected category id " + expectedId + " in response body: " + body);
+        System.out.println("[PASS] Category id " + expectedId + " found in response");
     }
 
     @Then("the API response body should indicate a bad request error")
@@ -346,6 +353,8 @@ public class PlantApiSteps extends ApiStepSupport {
 
     @And("all returned plants should belong to category {int}")
     public void allPlantsShouldBelongToCategory(int categoryId) {
+        ApiTestContext.State state = ApiTestContext.context();
+        int expectedCatId = state.testSubCategoryId > 0 ? state.testSubCategoryId : categoryId;
         String body = lastBody();
         JsonElement parsed = JsonParser.parseString(body);
         JsonArray plants = parsed.isJsonArray()
@@ -363,11 +372,11 @@ public class PlantApiSteps extends ApiStepSupport {
             } else if (plant.has("categoryId")) {
                 plantCategoryId = plant.get("categoryId").getAsInt();
             }
-            assertEquals(plantCategoryId, categoryId,
+            assertEquals(plantCategoryId, expectedCatId,
                     "Plant '" + plant.get("name").getAsString() + "' belongs to category "
-                            + plantCategoryId + ", not " + categoryId);
+                            + plantCategoryId + ", not " + expectedCatId);
         }
-        System.out.println("[PASS] All plants belong to category " + categoryId);
+        System.out.println("[PASS] All plants belong to category " + expectedCatId);
     }
 
     @Then("the plants should be ordered by price ascending")
