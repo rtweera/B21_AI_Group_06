@@ -40,11 +40,10 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # Matched to pom.xml <maven.compiler.source>20</maven.compiler.source>
-      - name: Set up JDK 20
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '20'
+          java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
 
