@@ -15,19 +15,8 @@ public class PlantsPage extends BasePage {
         navigate("/ui/plants");
     }
 
-    public void goToPlants() {
-        open();
-        page.waitForTimeout(500);
-    }
-
     public int getPlantRowCount() {
         return page.locator("table tbody tr").count();
-    }
-
-    public void searchPlant(String plantName) {
-        page.fill("input[name='name']", plantName);
-        page.locator("button:has-text('Search')").first().click();
-        page.waitForTimeout(1000);
     }
 
     public void searchByName(String name) {
