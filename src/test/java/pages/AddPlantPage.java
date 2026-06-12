@@ -84,7 +84,7 @@ public class AddPlantPage extends BasePage {
      */
     public void clickSave() {
         page.locator("button:has-text('Save'), button[type='submit']").first().click();
-        page.waitForTimeout(1000);
+        page.waitForLoadState();
     }
 
     /**
