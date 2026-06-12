@@ -73,36 +73,77 @@ public class PlantsApiSteps extends ApiStepSupport {
     }
 
     // -----------------------------------------------------------------------
-    // Given – authentication (delegates to existing shared steps via reuse)
+    // Given/And – individual precondition steps
+    //
+    // Convention: one Given keyword per scenario; extras chained with And.
+    //
+    // Setup steps (plant/sale creation) internally acquire admin credentials
+    // when needed — that implementation detail never appears in the feature
+    // file. activeToken is NOT changed by setup steps; only the explicit
+    // "I have an admin/user API token" steps (in ApiLoginSteps) change it.
     // -----------------------------------------------------------------------
-    // NOTE: "I have an admin API token" and "I have a normal user API token"
-    //       are already defined in ApiLoginSteps and are reused here.
 
-    // -----------------------------------------------------------------------
-    // Given – precondition: ensure a specific named plant exists
-    // -----------------------------------------------------------------------
+    @And("a plant exists with its id captured")
+    public void aPlantExistsWithItsIdCaptured() {
+        ApiTestContext.State state = ApiTestContext.context();
+        // Silently get an admin token for plant creation if not already available.
+        // The feature file never mentions admin here — it is a setup detail.
+        if (state.adminToken == null) {
+            APIResponse loginResponse = login(adminUsername(), adminPassword());
+            remember(loginResponse);
+            state.adminToken = extractToken();
+            assertNotNull(state.adminToken, "Setup: could not obtain admin token to create plant");
+        }
+        createAndCapturePlant();
+        // Do NOT touch activeToken — the subsequent "And I have a normal/admin API
+        // token" step controls who the active actor is for this scenario.
+    }
 
     @And("a plant named {string} exists under category {int}")
     public void aPlantNamedExistsUnderCategory(String name, int categoryId) {
-        System.out.println("[STEP] Ensuring plant '" + name + "' exists under category " + categoryId);
         ApiTestContext.State state = ApiTestContext.context();
-
-        // Check whether it already exists
+        if (state.adminToken == null) {
+            APIResponse loginResponse = login(adminUsername(), adminPassword());
+            remember(loginResponse);
+            state.adminToken = extractToken();
+            assertNotNull(state.adminToken, "Setup: could not obtain admin token to ensure plant exists");
+        }
+        System.out.println("[STEP] Ensuring plant '" + name + "' exists under category " + categoryId);
         APIResponse getAll = state.api.get("/api/plants", bearer(state.adminToken));
-        String body = getAll.text();
-
-        if (!body.contains("\"name\":\"" + name + "\"")) {
+        if (!getAll.text().contains("\"name\":\"" + name + "\"")) {
             System.out.println("[INFO] Plant '" + name + "' not found – creating it...");
             APIResponse created = createPlant(name, categoryId, 150.0, 25);
             System.out.println("[INFO] Create response (" + created.status() + "): " + created.text());
-            // If it already exists (409 / 400) that is also fine – the test will trigger the 400 we want
         } else {
             System.out.println("[INFO] Plant '" + name + "' already exists.");
         }
     }
 
-    @And("a plant exists and its id is captured")
-    public void aPlantExistsAndItsIdIsCaptured() {
+    @And("a sale exists for the captured plant id with its id captured")
+    public void aSaleExistsForTheCapturedPlantIdWithItsIdCaptured() {
+        ApiTestContext.State state = ApiTestContext.context();
+        if (state.adminToken == null) {
+            APIResponse loginResponse = login(adminUsername(), adminPassword());
+            remember(loginResponse);
+            state.adminToken = extractToken();
+            assertNotNull(state.adminToken, "Setup: could not obtain admin token to create sale");
+        }
+        Long plantId = state.createdPlantId;
+        assertNotNull(plantId, "Pre-condition: no captured plant id available – run \"a plant exists with its id captured\" first");
+        System.out.println("[STEP] Creating sale for plant id " + plantId + "...");
+        APIResponse response = state.api.post(
+                "/api/sales/plant/" + plantId + "?quantity=2",
+                bearer(state.adminToken));
+        assertEquals(response.status(), 201, "Pre-condition: sale creation failed. Body: " + response.text());
+        remember(response);
+        Long saleId = extractId();
+        assertNotNull(saleId, "Pre-condition: could not extract sale id from: " + lastBody());
+        state.createdSaleId = saleId;
+        System.out.println("[INFO] Captured sale id: " + saleId);
+    }
+
+    /** Internal helper: creates a uniquely-named plant via admin and captures its id in state. */
+    private void createAndCapturePlant() {
         System.out.println("[STEP] Creating a plant to capture its ID...");
         String name = uniquePlantName();
         APIResponse response = createPlant(name, 5, 10.0, 20);
@@ -114,22 +155,6 @@ public class PlantsApiSteps extends ApiStepSupport {
         System.out.println("[INFO] Captured plant id: " + id);
     }
 
-    @And("a sale is created for the captured plant id with quantity {int} and its id is captured")
-    public void aSaleIsCreatedForTheCapturedPlantIdAndItsIdIsCaptured(int quantity) {
-        ApiTestContext.State state = ApiTestContext.context();
-        Long plantId = state.createdPlantId;
-        assertNotNull(plantId, "Pre-condition: no captured plant id available");
-        System.out.println("[STEP] Creating sale for plant id " + plantId + " with quantity " + quantity + "...");
-        APIResponse response = state.api.post(
-                "/api/sales/plant/" + plantId + "?quantity=" + quantity,
-                bearer(state.adminToken));
-        assertEquals(response.status(), 201, "Pre-condition: sale creation failed. Body: " + response.text());
-        remember(response);
-        Long saleId = extractId();
-        assertNotNull(saleId, "Pre-condition: could not extract sale id from: " + lastBody());
-        state.createdSaleId = saleId;
-        System.out.println("[INFO] Captured sale id: " + saleId);
-    }
 
     // -----------------------------------------------------------------------
     // When – plant operations
@@ -200,35 +225,35 @@ public class PlantsApiSteps extends ApiStepSupport {
         System.out.println("[API] " + response.status() + " → " + lastBody());
     }
 
-    @When("I request all plants with the user token")
-    public void iRequestAllPlantsWithTheUserToken() {
-        System.out.println("[STEP] GET /api/plants with user token");
+    @When("I request all plants")
+    public void iRequestAllPlants() {
+        System.out.println("[STEP] GET /api/plants (active token)");
         ApiTestContext.State state = ApiTestContext.context();
-        APIResponse response = state.api.get("/api/plants", bearer(state.userToken));
+        APIResponse response = state.api.get("/api/plants", bearer(state.activeToken));
         remember(response);
         System.out.println("[API] " + response.status() + " → " + lastBody());
     }
 
-    @When("I request the captured sale by id with the user token")
-    public void iRequestTheCapturedSaleByIdWithTheUserToken() {
+    @When("I request the captured sale by id")
+    public void iRequestTheCapturedSaleById() {
         ApiTestContext.State state = ApiTestContext.context();
         Long saleId = state.createdSaleId;
         assertNotNull(saleId, "No captured sale id available");
-        System.out.println("[STEP] GET /api/sales/" + saleId + " with user token");
-        APIResponse response = state.api.get("/api/sales/" + saleId, bearer(state.userToken));
+        System.out.println("[STEP] GET /api/sales/" + saleId + " (active token)");
+        APIResponse response = state.api.get("/api/sales/" + saleId, bearer(state.activeToken));
         remember(response);
         System.out.println("[API] " + response.status() + " → " + lastBody());
     }
 
-    @When("I attempt to sell the captured plant with quantity {int} as the normal user")
-    public void iAttemptToSellTheCapturedPlantWithQuantityAsTheNormalUser(int quantity) {
+    @When("I attempt to sell the captured plant with quantity {int}")
+    public void iAttemptToSellTheCapturedPlantWithQuantity(int quantity) {
         ApiTestContext.State state = ApiTestContext.context();
         Long plantId = state.createdPlantId;
         assertNotNull(plantId, "No captured plant id available");
-        System.out.println("[STEP] POST /api/sales/plant/" + plantId + "?quantity=" + quantity + " with user token");
+        System.out.println("[STEP] POST /api/sales/plant/" + plantId + "?quantity=" + quantity + " (active token)");
         APIResponse response = state.api.post(
                 "/api/sales/plant/" + plantId + "?quantity=" + quantity,
-                bearer(state.userToken));
+                bearer(state.activeToken));
         remember(response);
         System.out.println("[API] " + response.status() + " → " + lastBody());
     }
