@@ -1,3 +1,4 @@
+@UI @215564H
 Feature: Non-admin categories and plants access
 
   Background:
@@ -30,7 +31,7 @@ Feature: Non-admin categories and plants access
     Then searched plant "plant" should be displayed
 
   @UI @User @215564H
-  Scenario: UI_PLT_USR_003 Verify non-admin can search a relevant plant
+  Scenario: UI_PLT_USR_004 Verify non-admin can search another relevant plant
     When user navigates to Plants page
     And user searches plant "plant 2"
     Then searched plant "plant 2" should be displayed

@@ -8,9 +8,9 @@ import io.cucumber.testng.CucumberOptions;
         glue = {"stepdefinitions", "hooks"},
         plugin = {
                 "pretty",
+                "json:target/cucumber-reports/cucumber.json",
                 "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
-        },
-        tags = "@215552U or @215565L"                 // runs both testers' tests
+        }
 )
 public class CucumberRunnerTest extends AbstractTestNGCucumberTests {
 }

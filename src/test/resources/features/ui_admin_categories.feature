@@ -1,3 +1,4 @@
+@UI @215564H
 Feature: Admin category management
   Background:
     Given admin user is logged in

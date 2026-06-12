@@ -54,4 +54,19 @@ public class LoginPage extends BasePage{
         Assert.assertEquals(feedback.innerText().trim(), message);
         Assert.assertTrue(feedback.isVisible(), "Expected validation feedback to be visible");
     }
+
+    public void navigateToLogin() {
+        open();
+    }
+
+    public void clickLogout() {
+        page.locator("a:has-text('Logout'), button:has-text('Logout'), [href*='logout']").first().click();
+        page.waitForTimeout(1000);
+    }
+
+    public boolean isLogoutMessageVisible() {
+        String body = page.locator("body").textContent().toLowerCase();
+        return body.contains("logout") || body.contains("logged out") || body.contains("signed out")
+                || page.locator(".alert-success, .alert-info, #logout-message").count() > 0;
+    }
 }

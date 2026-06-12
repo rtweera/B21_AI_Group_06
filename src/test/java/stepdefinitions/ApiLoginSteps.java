@@ -7,6 +7,7 @@ import io.cucumber.java.en.When;
 
 import java.util.Map;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -59,5 +60,12 @@ public class ApiLoginSteps extends ApiStepSupport {
         String body = lastBody().toLowerCase();
         assertTrue(body.contains("unauthorized") || body.contains("401"),
                 "Expected unauthorized response body, but was: " + body);
+    }
+
+    @Then("the API response status should be {int}")
+    public void theApiResponseStatusShouldBe(int expected) {
+        int actual = ApiTestContext.context().lastResponse.status();
+        assertEquals(actual, expected, "Expected HTTP " + expected + " but got " + actual);
+        System.out.println("[PASS] Status is " + actual);
     }
 }

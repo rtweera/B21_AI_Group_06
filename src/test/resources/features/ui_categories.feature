@@ -1,4 +1,4 @@
-@UI @ui @215527A
+@UI @215527A
 Feature: UI category permissions
 
   @UI_CAT_ADM_001

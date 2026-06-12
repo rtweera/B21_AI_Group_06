@@ -1,4 +1,4 @@
-@api @215527A
+@API @215527A
 Feature: API category access
 
   @API_GET_CAT_ADM_001

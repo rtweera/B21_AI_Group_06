@@ -16,6 +16,7 @@ import com.microsoft.playwright.APIResponse;
 import com.microsoft.playwright.APIRequestContext;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.RequestOptions;
+import utils.ConfigReader;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -47,7 +48,7 @@ public class CategorySteps {
 
     private void deletePlantsByCategoryName(APIRequestContext request, String token, String categoryName) {
         try {
-            APIResponse getPlants = request.get("/api/plants", 
+            APIResponse getPlants = request.get("/api/plants",
                 RequestOptions.create().setHeader("Authorization", "Bearer " + token));
             if (getPlants.status() == 200) {
                 JsonArray plantsArray = null;
@@ -64,7 +65,7 @@ public class CategorySteps {
                             JsonObject cat = p.getAsJsonObject("category");
                             if (cat.get("name").getAsString().equalsIgnoreCase(categoryName)) {
                                 int plantId = p.get("id").getAsInt();
-                                APIResponse delRes = request.delete("/api/plants/" + plantId, 
+                                APIResponse delRes = request.delete("/api/plants/" + plantId,
                                     RequestOptions.create().setHeader("Authorization", "Bearer " + token));
                                 System.out.println("DELETE PLANT " + p.get("name").getAsString() + " (ID " + plantId + ") STATUS: " + delRes.status());
                             }
@@ -80,27 +81,28 @@ public class CategorySteps {
     private void deleteCategoryByName(String categoryName) {
         try (Playwright playwright = Playwright.create()) {
             APIRequestContext request = playwright.request().newContext(
-                new APIRequest.NewContextOptions().setBaseURL("http://localhost:8080")
+                new APIRequest.NewContextOptions().setBaseURL(ConfigReader.getBaseUrl())
             );
-            String loginBody = "{\"username\":\"admin\",\"password\":\"admin123\"}";
-            APIResponse loginRes = request.post("/api/auth/login", 
+            String loginBody = "{\"username\":\"" + ConfigReader.getAdminUsername()
+                    + "\",\"password\":\"" + ConfigReader.getAdminPassword() + "\"}";
+            APIResponse loginRes = request.post("/api/auth/login",
                 RequestOptions.create().setHeader("Content-Type", "application/json").setData(loginBody));
             if (loginRes.status() == 200) {
                 JsonObject json = JsonParser.parseString(loginRes.text()).getAsJsonObject();
-                String token = json.has("token") ? json.get("token").getAsString() : 
+                String token = json.has("token") ? json.get("token").getAsString() :
                                json.getAsJsonObject("content").get("token").getAsString();
-                
+
                 boolean foundAndDeleted;
                 do {
                     foundAndDeleted = false;
-                    APIResponse getCats = request.get("/api/categories", 
+                    APIResponse getCats = request.get("/api/categories",
                         RequestOptions.create().setHeader("Authorization", "Bearer " + token));
                     if (getCats.status() == 200) {
                         JsonArray catsArray = JsonParser.parseString(getCats.text()).getAsJsonArray();
                         int targetCatId = 0;
                         java.util.List<Integer> subCatIds = new java.util.ArrayList<>();
                         java.util.List<String> subCatNames = new java.util.ArrayList<>();
-                        
+
                         for (JsonElement el : catsArray) {
                             JsonObject c = el.getAsJsonObject();
                             if (c.get("name").getAsString().equalsIgnoreCase(categoryName)) {
@@ -108,7 +110,7 @@ public class CategorySteps {
                                 break;
                             }
                         }
-                        
+
                         if (targetCatId > 0) {
                             for (JsonElement el : catsArray) {
                                 JsonObject c = el.getAsJsonObject();
@@ -124,19 +126,19 @@ public class CategorySteps {
                                     }
                                 }
                             }
-                            
+
                             for (String subName : subCatNames) {
                                 deletePlantsByCategoryName(request, token, subName);
                             }
-                            
+
                             deletePlantsByCategoryName(request, token, categoryName);
-                            
+
                             for (int subId : subCatIds) {
-                                request.delete("/api/categories/" + subId, 
+                                request.delete("/api/categories/" + subId,
                                     RequestOptions.create().setHeader("Authorization", "Bearer " + token));
                             }
-                            
-                            APIResponse delRes = request.delete("/api/categories/" + targetCatId, 
+
+                            APIResponse delRes = request.delete("/api/categories/" + targetCatId,
                                 RequestOptions.create().setHeader("Authorization", "Bearer " + token));
                             System.out.println("DELETE CATEGORY " + categoryName + " (ID " + targetCatId + ") STATUS: " + delRes.status());
                             foundAndDeleted = true;
@@ -159,18 +161,19 @@ public class CategorySteps {
     private void ensureCategoryExists(String categoryName) {
         try (Playwright playwright = Playwright.create()) {
             APIRequestContext request = playwright.request().newContext(
-                new APIRequest.NewContextOptions().setBaseURL("http://localhost:8080")
+                new APIRequest.NewContextOptions().setBaseURL(ConfigReader.getBaseUrl())
             );
-            String loginBody = "{\"username\":\"admin\",\"password\":\"admin123\"}";
-            APIResponse loginRes = request.post("/api/auth/login", 
+            String loginBody = "{\"username\":\"" + ConfigReader.getAdminUsername()
+                    + "\",\"password\":\"" + ConfigReader.getAdminPassword() + "\"}";
+            APIResponse loginRes = request.post("/api/auth/login",
                 RequestOptions.create().setHeader("Content-Type", "application/json").setData(loginBody));
             if (loginRes.status() == 200) {
                 JsonObject json = JsonParser.parseString(loginRes.text()).getAsJsonObject();
-                String token = json.has("token") ? json.get("token").getAsString() : 
+                String token = json.has("token") ? json.get("token").getAsString() :
                                json.getAsJsonObject("content").get("token").getAsString();
-                
+
                 String catBody = "{\"name\":\"" + categoryName + "\"}";
-                request.post("/api/categories", 
+                request.post("/api/categories",
                     RequestOptions.create()
                         .setHeader("Authorization", "Bearer " + token)
                         .setHeader("Content-Type", "application/json")
@@ -184,52 +187,53 @@ public class CategorySteps {
     private void ensureSubCategoryExists(String subCategoryName, String parentCategoryName) {
         try (Playwright playwright = Playwright.create()) {
             APIRequestContext request = playwright.request().newContext(
-                new APIRequest.NewContextOptions().setBaseURL("http://localhost:8080")
+                new APIRequest.NewContextOptions().setBaseURL(ConfigReader.getBaseUrl())
             );
-            String loginBody = "{\"username\":\"admin\",\"password\":\"admin123\"}";
-            APIResponse loginRes = request.post("/api/auth/login", 
+            String loginBody = "{\"username\":\"" + ConfigReader.getAdminUsername()
+                    + "\",\"password\":\"" + ConfigReader.getAdminPassword() + "\"}";
+            APIResponse loginRes = request.post("/api/auth/login",
                 RequestOptions.create().setHeader("Content-Type", "application/json").setData(loginBody));
             if (loginRes.status() == 200) {
                 JsonObject json = JsonParser.parseString(loginRes.text()).getAsJsonObject();
-                String token = json.has("token") ? json.get("token").getAsString() : 
+                String token = json.has("token") ? json.get("token").getAsString() :
                                json.getAsJsonObject("content").get("token").getAsString();
-                
+
                 int parentId = getCategoryIdByName(request, token, parentCategoryName);
                 if (parentId == 0) {
                     String parentBody = "{\"name\":\"" + parentCategoryName + "\"}";
-                    APIResponse parentRes = request.post("/api/categories", 
+                    APIResponse parentRes = request.post("/api/categories",
                         RequestOptions.create()
                             .setHeader("Authorization", "Bearer " + token)
                             .setHeader("Content-Type", "application/json")
                             .setData(parentBody));
                     if (parentRes.status() == 200 || parentRes.status() == 201) {
                         JsonObject parentJson = JsonParser.parseString(parentRes.text()).getAsJsonObject();
-                        parentId = parentJson.has("id") ? parentJson.get("id").getAsInt() : 
+                        parentId = parentJson.has("id") ? parentJson.get("id").getAsInt() :
                                    parentJson.getAsJsonObject("content").get("id").getAsInt();
                     }
                 }
-                
+
                 int subId = getCategoryIdByName(request, token, subCategoryName);
                 if (subId > 0 && parentId > 0) {
-                    APIResponse getCat = request.get("/api/categories/" + subId, 
+                    APIResponse getCat = request.get("/api/categories/" + subId,
                         RequestOptions.create().setHeader("Authorization", "Bearer " + token));
                     if (getCat.status() == 200) {
                         JsonObject catObj = JsonParser.parseString(getCat.text()).getAsJsonObject();
-                        int actualParentId = catObj.has("parentId") && !catObj.get("parentId").isJsonNull() ? 
+                        int actualParentId = catObj.has("parentId") && !catObj.get("parentId").isJsonNull() ?
                                              catObj.get("parentId").getAsInt() : 0;
                         if (actualParentId != parentId) {
-                            System.out.println("Subcategory parent incorrect. Deleting existing: " + subCategoryName);
+                            System.out.println("Subcategory parent incorrect. Deleting: " + subCategoryName);
                             deletePlantsByCategoryName(request, token, subCategoryName);
-                            request.delete("/api/categories/" + subId, 
+                            request.delete("/api/categories/" + subId,
                                 RequestOptions.create().setHeader("Authorization", "Bearer " + token));
                             subId = 0;
                         }
                     }
                 }
-                
+
                 if (subId == 0 && parentId > 0) {
                     String subBody = "{\"name\":\"" + subCategoryName + "\",\"parent\":{\"id\":" + parentId + "}}";
-                    request.post("/api/categories", 
+                    request.post("/api/categories",
                         RequestOptions.create()
                             .setHeader("Authorization", "Bearer " + token)
                             .setHeader("Content-Type", "application/json")
@@ -242,7 +246,7 @@ public class CategorySteps {
     }
 
     private int getCategoryIdByName(APIRequestContext request, String token, String name) {
-        APIResponse getCats = request.get("/api/categories", 
+        APIResponse getCats = request.get("/api/categories",
             RequestOptions.create().setHeader("Authorization", "Bearer " + token));
         if (getCats.status() == 200) {
             JsonArray catsArray = JsonParser.parseString(getCats.text()).getAsJsonArray();
@@ -259,25 +263,26 @@ public class CategorySteps {
     private void ensurePlantExists(String plantName, String subCategoryName) {
         try (Playwright playwright = Playwright.create()) {
             APIRequestContext request = playwright.request().newContext(
-                new APIRequest.NewContextOptions().setBaseURL("http://localhost:8080")
+                new APIRequest.NewContextOptions().setBaseURL(ConfigReader.getBaseUrl())
             );
-            String loginBody = "{\"username\":\"admin\",\"password\":\"admin123\"}";
-            APIResponse loginRes = request.post("/api/auth/login", 
+            String loginBody = "{\"username\":\"" + ConfigReader.getAdminUsername()
+                    + "\",\"password\":\"" + ConfigReader.getAdminPassword() + "\"}";
+            APIResponse loginRes = request.post("/api/auth/login",
                 RequestOptions.create().setHeader("Content-Type", "application/json").setData(loginBody));
             if (loginRes.status() == 200) {
                 JsonObject json = JsonParser.parseString(loginRes.text()).getAsJsonObject();
-                String token = json.has("token") ? json.get("token").getAsString() : 
+                String token = json.has("token") ? json.get("token").getAsString() :
                                json.getAsJsonObject("content").get("token").getAsString();
-                
+
                 int catId = getCategoryIdByName(request, token, subCategoryName);
                 if (catId > 0) {
                     String plantBody = "{\"name\":\"" + plantName + "\",\"price\":150,\"quantity\":25}";
-                    APIResponse plantRes = request.post("/api/plants/category/" + catId, 
+                    APIResponse plantRes = request.post("/api/plants/category/" + catId,
                         RequestOptions.create()
                             .setHeader("Authorization", "Bearer " + token)
                             .setHeader("Content-Type", "application/json")
                             .setData(plantBody));
-                    System.out.println("CREATE PLANT " + plantName + " STATUS: " + plantRes.status() + " Body: " + plantRes.text());
+                    System.out.println("CREATE PLANT " + plantName + " STATUS: " + plantRes.status());
                 }
             }
         } catch (Exception e) {
@@ -286,19 +291,19 @@ public class CategorySteps {
     }
 
     @Given("admin user is logged in")
-    public void admin_user_is_logged_in(){
+    public void admin_user_is_logged_in() {
         loginPage.navigateToLogin();
-        loginPage.login("admin","admin123");
+        loginPage.login(ConfigReader.getAdminUsername(), ConfigReader.getAdminPassword());
     }
 
     @Given("non admin user is logged in")
     public void non_admin_user_is_logged_in() {
         loginPage.navigateToLogin();
-        loginPage.login("testuser", "test123");
+        loginPage.login(ConfigReader.getUserUsername(), ConfigReader.getUserPassword());
     }
 
     @When("admin navigates to Categories page")
-    public void admin_navigates_to_categories_page(){
+    public void admin_navigates_to_categories_page() {
         categoriesPage.goToCategories();
     }
 
@@ -308,22 +313,22 @@ public class CategorySteps {
     }
 
     @When("admin clicks Add A Category button")
-    public void admin_clicks_add_category_button(){
+    public void admin_clicks_add_category_button() {
         categoriesPage.clickAddCategory();
     }
 
     @When("admin enters category name {string}")
-    public void admin_enters_category_name(String name){
+    public void admin_enters_category_name(String name) {
         categoriesPage.enterCategoryName(name);
     }
 
     @When("admin clicks Cancel button")
-    public void admin_clicks_cancel_button(){
+    public void admin_clicks_cancel_button() {
         categoriesPage.clickCancel();
     }
 
     @When("admin clicks Save button")
-    public void admin_clicks_save_button(){
+    public void admin_clicks_save_button() {
         categoriesPage.clickSave();
     }
 
@@ -338,12 +343,12 @@ public class CategorySteps {
     }
 
     @Then("admin should be redirected to Add Category page")
-    public void admin_should_be_redirected_to_add_category_page(){
-        assertThat(UiHooks.page).hasURL("http://localhost:8080/ui/categories/add");
+    public void admin_should_be_redirected_to_add_category_page() {
+        assertThat(UiHooks.page).hasURL(ConfigReader.getBaseUrl() + "/ui/categories/add");
     }
 
     @Then("saved category {string} should be visible in category list")
-    public void saved_category_should_be_visible(String categoryName){
+    public void saved_category_should_be_visible(String categoryName) {
         categoriesPage.verifyCategoryVisible(categoryName);
     }
 
@@ -353,8 +358,8 @@ public class CategorySteps {
     }
 
     @Then("admin should be redirected to Categories page")
-    public void admin_should_be_redirected_to_categories_page(){
-        assertThat(UiHooks.page).hasURL("http://localhost:8080/ui/categories");
+    public void admin_should_be_redirected_to_categories_page() {
+        assertThat(UiHooks.page).hasURL(ConfigReader.getBaseUrl() + "/ui/categories");
     }
 
     @Then("if categories are empty {string} should be displayed")

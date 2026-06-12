@@ -10,7 +10,7 @@ import utils.PlaywrightFactory;
 import static org.testng.Assert.*;
 
 // Steps specific to the Sales pages (sell, delete, sort, cancel)
-public class SalesUiSteps {
+class SalesUiSteps {
 
     private Page page;
     private SalesPage salesPage;

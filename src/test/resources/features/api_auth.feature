@@ -1,4 +1,4 @@
-@api @215527A
+@API @215527A
 Feature: API authentication
 
   @API_POST_AUTH_ADM_001

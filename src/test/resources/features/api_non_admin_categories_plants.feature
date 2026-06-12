@@ -1,3 +1,4 @@
+@API @215564H
 Feature: non admin API category and plant management
   Background:
     Given non admin API token is available

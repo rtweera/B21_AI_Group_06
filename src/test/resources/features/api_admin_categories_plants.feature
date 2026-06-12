@@ -1,3 +1,4 @@
+@API @215564H
 Feature: Admin API category and plant management
   Background:
     Given admin API token is available

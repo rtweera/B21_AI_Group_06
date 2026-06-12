@@ -11,11 +11,6 @@ public class SalesPage extends BasePage {
         super(page);
     }
 
-    // Go to the sales list page
-    public void goToSalesListPage() {
-        navigate("/ui/sales");
-    }
-
     // Go to the sell plant page
     public void openNewSalePage() {
         navigate("/ui/sales/new");

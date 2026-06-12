@@ -1,4 +1,4 @@
-@UI @ui @215527A
+@UI @215527A
 Feature: UI authentication and dashboard
 
   @UI_AUTH_ADM_001
