@@ -1,0 +1,1 @@
+{"id":"005ffd4445873d7d204be4d6aa64c6d0","fullName":"src/test/resources/features/api/plants_api.feature:90","name":"API_GET_PLT_USR_001 - Verify non-admin can see all plants","status":"passed","testResultsByEnv":{"default":"fe896a434f1fbef5f5a8aba8ee8bec1d"}}

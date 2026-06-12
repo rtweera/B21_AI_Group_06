@@ -1,0 +1,1 @@
+{"id":"27aa828cda0e4336ee21cb40ab014492","fullName":"src/test/resources/features/api/sales_api.feature:73","name":"API_DEL_SLS_USR_001 - Normal user cannot delete a sale and receives 403","status":"broken","testResultsByEnv":{"default":"4f92bca0823481f30a1b45d563f23164"}}

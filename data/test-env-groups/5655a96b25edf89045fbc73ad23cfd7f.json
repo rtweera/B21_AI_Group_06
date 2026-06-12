@@ -1,0 +1,1 @@
+{"id":"5655a96b25edf89045fbc73ad23cfd7f","fullName":"src/test/resources/features/api/categories_api.feature:63","name":"API_POST_CAT_ADM_004 - Verify admin cannot create category name more than 10 characters","status":"passed","testResultsByEnv":{"default":"66026fb39f7c3e35a042961fb1482990"}}
