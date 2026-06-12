@@ -1,30 +1,58 @@
 package utils;
 
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
     private static final Properties props = new Properties();
 
-    // Run only once when the class is loaded into mem by JVM
     static {
-        Path configPath = Path.of("app", "application.properties");
-        if (Files.exists(configPath)) {
-            try (InputStream is = new FileInputStream(configPath.toFile())) {
+        try (InputStream is = ConfigReader.class.getClassLoader()
+                .getResourceAsStream("config/config.properties")) {
+            if (is != null) {
                 props.load(is);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to load " + configPath, e);
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load config/config.properties", e);
         }
     }
 
     public static String getBaseUrl() {
-        String url = props.getProperty("api.base-url", "http://localhost:8080");
-        return url.trim();
+        String sysProp = System.getProperty("base.url");
+        if (sysProp != null && !sysProp.isBlank()) {
+            return trimSlash(sysProp);
+        }
+        return trimSlash(props.getProperty("base.url", "http://localhost:8080"));
+    }
+
+    public static String getAdminUsername() {
+        return System.getProperty("admin.username",
+                props.getProperty("admin.username", "admin"));
+    }
+
+    public static String getAdminPassword() {
+        return System.getProperty("admin.password",
+                props.getProperty("admin.password", "admin123"));
+    }
+
+    public static String getUserUsername() {
+        return System.getProperty("user.username",
+                props.getProperty("user.username", "testuser"));
+    }
+
+    public static String getUserPassword() {
+        return System.getProperty("user.password",
+                props.getProperty("user.password", "test123"));
+    }
+
+    public static boolean isHeadless() {
+        String sysProp = System.getProperty("headless");
+        if (sysProp != null) return Boolean.parseBoolean(sysProp);
+        return Boolean.parseBoolean(props.getProperty("headless", "false"));
+    }
+
+    private static String trimSlash(String url) {
+        return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
     }
 }

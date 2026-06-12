@@ -1,18 +1,21 @@
 package hooks;
 
-import api.PlaywrightApiContext;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import stepdefinitions.api.ApiTestContext;
 
 public class ApiHooks {
 
-    @Before("@API")
-    public void setupApi() {
-        PlaywrightApiContext.init();
+    @Before(value = "@API", order = 0)
+    public void initApiContext(Scenario scenario) {
+        System.out.println("\n=== STARTING API: " + scenario.getName() + " ===");
+        ApiTestContext.initContext();
     }
 
-    @After("@API")
-    public void tearDownApi() {
-        PlaywrightApiContext.close();
+    @After(value = "@API", order = 0)
+    public void destroyApiContext(Scenario scenario) {
+        ApiTestContext.destroyContext();
+        System.out.println("=== DONE API: " + scenario.getName() + " ===\n");
     }
 }
