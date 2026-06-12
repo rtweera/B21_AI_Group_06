@@ -1,1 +1,1 @@
-{"id":"af3ad290dc1fc8a932c467a5d3a36677","fullName":"src/test/resources/features/api/auth_api.feature:15","name":"API_POST_AUTH_USR_001 - Normal user login returns an auth token","status":"passed","testResultsByEnv":{"default":"5bf7c71f8302157d1559d1c1fa1a0e23"}}
+{"id":"af3ad290dc1fc8a932c467a5d3a36677","fullName":"src/test/resources/features/api/auth_api.feature:15","name":"API_POST_AUTH_USR_001 - Normal user login returns an auth token","status":"passed","testResultsByEnv":{"default":"f24768b0644edbfbf3d43a2c24fef5c2"}}

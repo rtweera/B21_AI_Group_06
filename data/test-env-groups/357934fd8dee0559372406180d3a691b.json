@@ -1,1 +1,1 @@
-{"id":"357934fd8dee0559372406180d3a691b","fullName":"src/test/resources/features/api/sales_api.feature:33","name":"API_DEL_SLS_ADM_004 - Admin deletes a sale successfully","status":"broken","testResultsByEnv":{"default":"872e047dbdd246b21a54ada52ec75aef"}}
+{"id":"357934fd8dee0559372406180d3a691b","fullName":"src/test/resources/features/api/sales_api.feature:33","name":"API_DEL_SLS_ADM_004 - Admin deletes a sale successfully","status":"passed","testResultsByEnv":{"default":"6539c66f6553a852768064494a2814e9"}}

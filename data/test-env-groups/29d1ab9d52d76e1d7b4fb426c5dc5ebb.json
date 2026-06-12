@@ -1,1 +1,1 @@
-{"id":"29d1ab9d52d76e1d7b4fb426c5dc5ebb","fullName":"src/test/resources/features/api/categories_api.feature:74","name":"API_GET_CAT_USR_001 - Normal user can get all categories","status":"passed","testResultsByEnv":{"default":"fa093bef60e080168f51ec13bd50535c"}}
+{"id":"29d1ab9d52d76e1d7b4fb426c5dc5ebb","fullName":"src/test/resources/features/api/categories_api.feature:74","name":"API_GET_CAT_USR_001 - Normal user can get all categories","status":"passed","testResultsByEnv":{"default":"dc1046e15a074869d8c2d85a60da9e53"}}

@@ -1,1 +1,1 @@
-{"id":"730fb23b0ff7206efde8f54e638b36ec","fullName":"src/test/resources/features/api/plants_api.feature:9","name":"API_POST_PLT_ADM_001 - Admin creates a valid plant under a sub-category","status":"failed","testResultsByEnv":{"default":"914426231d8b29eed018e0cabf4c3308"}}
+{"id":"730fb23b0ff7206efde8f54e638b36ec","fullName":"src/test/resources/features/api/plants_api.feature:9","name":"API_POST_PLT_ADM_001 - Admin creates a valid plant under a sub-category","status":"passed","testResultsByEnv":{"default":"fec1953a40f693f2712aff814b59541f"}}

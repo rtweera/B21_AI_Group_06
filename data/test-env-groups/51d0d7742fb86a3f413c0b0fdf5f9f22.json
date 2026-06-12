@@ -1,1 +1,1 @@
-{"id":"51d0d7742fb86a3f413c0b0fdf5f9f22","fullName":"src/test/resources/features/ui/plants_ui.feature:34","name":"UI_PLT_ADM_004 - Verify that admin users can't add a plant with zero price","status":"broken","testResultsByEnv":{"default":"b2438fec641ee9d03ebfdc5208f2c7f3"}}
+{"id":"51d0d7742fb86a3f413c0b0fdf5f9f22","fullName":"src/test/resources/features/ui/plants_ui.feature:34","name":"UI_PLT_ADM_004 - Verify that admin users can't add a plant with zero price","status":"passed","testResultsByEnv":{"default":"fc90e42756e957ca14f25879d8140589"}}

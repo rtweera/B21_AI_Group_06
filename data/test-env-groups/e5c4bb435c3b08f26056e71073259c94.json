@@ -1,1 +1,1 @@
-{"id":"e5c4bb435c3b08f26056e71073259c94","fullName":"src/test/resources/features/ui/categories_ui.feature:9","name":"UI_CAT_ADM_001 - Admin can see the Add A Category button","status":"passed","testResultsByEnv":{"default":"55349eb21fc81e8e2605967a48733e2d"}}
+{"id":"e5c4bb435c3b08f26056e71073259c94","fullName":"src/test/resources/features/ui/categories_ui.feature:9","name":"UI_CAT_ADM_001 - Admin can see the Add A Category button","status":"passed","testResultsByEnv":{"default":"7eeb5a4da0bb61b27f604769efef79cc"}}

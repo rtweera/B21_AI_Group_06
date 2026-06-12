@@ -1,1 +1,1 @@
-{"id":"1c2c093fdd8250b160903c8c3ce44621","fullName":"src/test/resources/features/api/categories_api.feature:98","name":"API_DEL_CAT_USR_001 - Verify non-admin cannot delete category","status":"passed","testResultsByEnv":{"default":"795fa4ec4a8260f837ef0d384fa0bcf4"}}
+{"id":"1c2c093fdd8250b160903c8c3ce44621","fullName":"src/test/resources/features/api/categories_api.feature:98","name":"API_DEL_CAT_USR_001 - Verify non-admin cannot delete category","status":"passed","testResultsByEnv":{"default":"810740d66d3345c3b49d7e54c7cf9e21"}}
