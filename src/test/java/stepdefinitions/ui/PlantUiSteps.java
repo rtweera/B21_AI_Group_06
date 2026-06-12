@@ -256,7 +256,7 @@ public class PlantUiSteps extends UiStepSupport {
         loginPage().open();
         loginPage().login("admin", "admin123");
         salesPage().openSalesListPage();
-        page().waitForTimeout(1000);
+        page().locator("table").waitFor();
         while (salesPage().getSalesRowCount() > 0) {
             Locator firstRow = page().locator("table tbody tr").first();
             String rowText = firstRow.textContent();
@@ -266,7 +266,7 @@ public class PlantUiSteps extends UiStepSupport {
                     "button.btn-outline-danger, button:has(i.bi-trash), button:has-text('Delete')");
             if (deleteBtn.count() > 0) {
                 deleteBtn.first().click();
-                page().waitForTimeout(1500);
+                page().waitForLoadState();
             } else {
                 break;
             }
@@ -291,12 +291,12 @@ public class PlantUiSteps extends UiStepSupport {
             salesPage().selectFirstPlant();
             salesPage().enterQuantity("1");
             salesPage().clickSellButton();
-            page().waitForTimeout(1500);
+            page().waitForURL("**/sales");
             loginPage().clearCookies();
             loginPage().open();
             loginPage().login("testuser", "test123");
             salesPage().openSalesListPage();
-            page().waitForTimeout(1000);
+            page().locator("table").waitFor();
             rowCount = salesPage().getSalesRowCount();
         }
         assertTrue(rowCount >= 1, "Sales table should have at least one record.");
