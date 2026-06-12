@@ -42,8 +42,11 @@ public class CategoryUiSteps extends UiStepSupport {
         } else {
             ensureCategoryExists("TestCat");
             ensureSubCategoryExists("TestSubCat", "TestCat");
-            ensurePlantExists("plant", "TestSubCat");
-            ensurePlantExists("plant 2", "TestSubCat");
+            ensureSubCategoryExists("SpiderAloe", "TestCat");
+            if (name.contains("UI_PLT_USR_003")) {
+                ensurePlantExists("plant", "TestSubCat");
+                ensurePlantExists("plant 2", "TestSubCat");
+            }
         }
     }
 
