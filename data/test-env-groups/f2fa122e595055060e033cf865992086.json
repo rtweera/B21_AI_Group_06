@@ -1,0 +1,1 @@
+{"id":"f2fa122e595055060e033cf865992086","fullName":"src/test/resources/features/api/plants_api.feature:96","name":"[API_GET_PLT_USR_002] Verify non-admin can get plant by ID","status":"passed","testResultsByEnv":{"default":"ce29a7052ab6bf6c36ceb132a857f821"}}

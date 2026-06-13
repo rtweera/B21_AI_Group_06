@@ -1,0 +1,1 @@
+{"id":"c6fd46a6eeaf5b9ca5972f72c1bd81ba","fullName":"src/test/resources/features/ui/categories_ui.feature:104","name":"[UI_CAT_USR_004] Unauthenticated user accessing categories is redirected to login","status":"passed","testResultsByEnv":{"default":"b219943e786f6bcd3f2ca2093cee7c2f"}}

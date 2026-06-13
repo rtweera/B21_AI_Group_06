@@ -1,0 +1,1 @@
+{"id":"980fe5d70e2491401a9dc82e5ac906d6","fullName":"src/test/resources/features/api/categories_api.feature:98","name":"[API_DEL_CAT_USR_001] Verify non-admin cannot delete category","status":"passed","testResultsByEnv":{"default":"f54ee5f95ab9b545d435896c86ca1a41"}}

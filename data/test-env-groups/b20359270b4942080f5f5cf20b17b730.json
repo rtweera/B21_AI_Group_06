@@ -1,0 +1,1 @@
+{"id":"b20359270b4942080f5f5cf20b17b730","fullName":"src/test/resources/features/api/categories_api.feature:31","name":"[API_POST_CAT_ADM_002] Admin cannot create a category with a missing name","status":"passed","testResultsByEnv":{"default":"aad5afa8347bca9360bba2d607182cc9"}}

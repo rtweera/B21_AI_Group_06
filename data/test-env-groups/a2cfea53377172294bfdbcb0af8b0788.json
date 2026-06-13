@@ -1,0 +1,1 @@
+{"id":"a2cfea53377172294bfdbcb0af8b0788","fullName":"src/test/resources/features/ui/plants_ui.feature:122","name":"[UI_PLT_USR_009] Unauthenticated user accessing plants is redirected to login","status":"passed","testResultsByEnv":{"default":"e33609ee75b4c9c759e9bfd2f51f8ece"}}

@@ -1,0 +1,1 @@
+{"id":"8286dae5ec349c1b6db9fbe69a7d5ef6","fullName":"src/test/resources/features/api/plants_api.feature:19","name":"[API_POST_PLT_ADM_002] Admin cannot create a duplicate plant in the same category","status":"passed","testResultsByEnv":{"default":"e015a34a454f7a7c436c6458434cd235"}}

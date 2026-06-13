@@ -1,0 +1,1 @@
+{"id":"45fcbf3526b3483fe18580d9af330735","fullName":"src/test/resources/features/ui/auth_ui.feature:30","name":"[UI_AUTH_USR_002] Normal user login with incorrect password is prohibited","status":"passed","testResultsByEnv":{"default":"21a3e497f68d1fed56623bc0b7fe628a"}}

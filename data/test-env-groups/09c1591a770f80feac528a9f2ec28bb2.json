@@ -1,0 +1,1 @@
+{"id":"09c1591a770f80feac528a9f2ec28bb2","fullName":"src/test/resources/features/api/auth_api.feature:37","name":"[API_GET_AUTH_USR_001] Calling a protected endpoint without authentication returns 401","status":"passed","testResultsByEnv":{"default":"633313fc9fb2e3a3a314274bbcff8328"}}

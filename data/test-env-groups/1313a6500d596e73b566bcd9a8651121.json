@@ -1,0 +1,1 @@
+{"id":"1313a6500d596e73b566bcd9a8651121","fullName":"src/test/resources/features/api/sales_api.feature:25","name":"[API_POST_SLS_ADM_003] Creating a sale with quantity zero is rejected","status":"passed","testResultsByEnv":{"default":"5188ce620fc884d6f475f7ba624e90fd"}}

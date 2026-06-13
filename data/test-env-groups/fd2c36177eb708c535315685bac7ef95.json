@@ -1,0 +1,1 @@
+{"id":"fd2c36177eb708c535315685bac7ef95","fullName":"src/test/resources/features/api/plants_api.feature:136","name":"[API_POST_PLT_ADM_007] Backend must not return 500 when optional Swagger fields are included (error handling)","status":"failed","testResultsByEnv":{"default":"ed749f881a00d1dc6ffef840b8922974"}}

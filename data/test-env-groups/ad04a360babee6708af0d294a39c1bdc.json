@@ -1,0 +1,1 @@
+{"id":"ad04a360babee6708af0d294a39c1bdc","fullName":"src/test/resources/features/api/plants_api.feature:27","name":"[API_POST_PLT_ADM_003] Admin cannot create a plant with negative quantity","status":"passed","testResultsByEnv":{"default":"13c4c4e4d1e0ac1d49e552d598084b72"}}

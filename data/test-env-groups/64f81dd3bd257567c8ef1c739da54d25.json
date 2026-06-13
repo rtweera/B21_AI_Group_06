@@ -1,0 +1,1 @@
+{"id":"64f81dd3bd257567c8ef1c739da54d25","fullName":"src/test/resources/features/api/auth_api.feature:15","name":"[API_POST_AUTH_USR_001] Normal user login returns an auth token","status":"passed","testResultsByEnv":{"default":"85bb7c7eeee752a9e1d67bfa00e00474"}}

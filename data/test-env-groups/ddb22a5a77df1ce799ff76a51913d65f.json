@@ -1,1 +1,0 @@
-{"id":"ddb22a5a77df1ce799ff76a51913d65f","fullName":"src/test/resources/features/api/categories_api.feature:92","name":"API_PUT_CAT_USR_001 - Verify non-admin cannot update category","status":"passed","testResultsByEnv":{"default":"549cd32e809c5cb8d40750a1558f8453"}}

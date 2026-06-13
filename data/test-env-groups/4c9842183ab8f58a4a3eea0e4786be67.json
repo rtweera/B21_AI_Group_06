@@ -1,0 +1,1 @@
+{"id":"4c9842183ab8f58a4a3eea0e4786be67","fullName":"src/test/resources/features/api/sales_api.feature:41","name":"[API_GET_SLS_ADM_005] Admin can get the sales list sorted by date descending","status":"passed","testResultsByEnv":{"default":"565b08ca54d76e79040cb0dc0ee8ede2"}}

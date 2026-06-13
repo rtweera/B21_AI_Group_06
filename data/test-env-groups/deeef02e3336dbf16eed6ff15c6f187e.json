@@ -1,0 +1,1 @@
+{"id":"deeef02e3336dbf16eed6ff15c6f187e","fullName":"src/test/resources/features/api/auth_api.feature:9","name":"[API_POST_AUTH_ADM_001] Admin login returns an auth token","status":"passed","testResultsByEnv":{"default":"18ac0ade58384fe3e333f7a5cf699125"}}

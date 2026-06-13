@@ -1,0 +1,1 @@
+{"id":"c5f7640e3e6f1f1057eff9060ecc004d","fullName":"src/test/resources/features/api/auth_api.feature:27","name":"[API_POST_AUTH_USR_003] Login request with an empty body fails","status":"passed","testResultsByEnv":{"default":"4984cbee544c7b15ea325e39cdfdf076"}}

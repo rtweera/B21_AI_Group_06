@@ -1,0 +1,1 @@
+{"id":"e3cff1431de9045300771e40f18b8104","fullName":"src/test/resources/features/ui/sales_ui.feature:57","name":"[UI_SLS_USR_001] Unauthenticated user accessing sales is redirected to login","status":"passed","testResultsByEnv":{"default":"8b2e2fafcccde08682670a915ab6f69f"}}

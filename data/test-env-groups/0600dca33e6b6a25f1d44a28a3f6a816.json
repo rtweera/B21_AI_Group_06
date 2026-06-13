@@ -1,0 +1,1 @@
+{"id":"0600dca33e6b6a25f1d44a28a3f6a816","fullName":"src/test/resources/features/ui/plants_ui.feature:44","name":"[UI_PLT_ADM_005] Verify that admin user can't delete a plant that has a sales record","status":"failed","testResultsByEnv":{"default":"a2e31319ce19d24b4d8194c00a9e8eeb"}}
