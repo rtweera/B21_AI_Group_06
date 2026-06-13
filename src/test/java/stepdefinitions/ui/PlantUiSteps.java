@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.microsoft.playwright.Dialog;
 import com.microsoft.playwright.Locator;
-import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -33,23 +32,10 @@ public class PlantUiSteps extends UiStepSupport {
     // ── Navigation ────────────────────────────────────────────────────────────
 
     @And("I navigate to the Plants page")
-    public void iNavigateToPlantsPage() {
-        System.out.println("[STEP] Navigating to Plants page...");
-        plantsPage().open();
-        System.out.println("[PASS] Navigated to Plants page");
-    }
-
     @When("I navigate to the plants page")
-    public void iNavigateToThePlantsPage() {
-        System.out.println("[STEP] Going to plants page...");
-        plantsPage().open();
-        System.out.println("[PASS] On plants page");
-    }
-
-    // 215564H variant
     @When("user navigates to Plants page")
-    public void user_navigates_to_plants_page() {
-        plantsPage().goToPlants();
+    public void iNavigateToPlantsPage() {
+        plantsPage().open();
     }
 
     // ── Add-plant form ────────────────────────────────────────────────────────
@@ -168,16 +154,6 @@ public class PlantUiSteps extends UiStepSupport {
 
     // ── Non-admin access ──────────────────────────────────────────────────────
 
-    @Given("I am logged in as a non-admin user")
-    public void iAmLoggedInAsNonAdminUser() {
-        System.out.println("[STEP] Logging in as non-admin user (testuser)...");
-        loginPage().clearCookies();
-        loginPage().open();
-        loginPage().login("testuser", "test123");
-        assertTrue(page().url().contains("/dashboard"), "Should navigate to dashboard");
-        System.out.println("[PASS] Logged in as testuser");
-    }
-
     @Then("I should not see the {string} button")
     public void iShouldNotSeeTheButton(String buttonText) {
         System.out.println("[STEP] Checking button is not visible: " + buttonText);
@@ -204,7 +180,7 @@ public class PlantUiSteps extends UiStepSupport {
 
     @When("user searches plant {string}")
     public void user_searches_plant(String plantName) {
-        plantsPage().searchPlant(plantName);
+        plantsPage().searchByName(plantName);
         System.out.println("PLANTS PAGE HTML AFTER SEARCH (" + plantName + "): " + page().content());
     }
 
