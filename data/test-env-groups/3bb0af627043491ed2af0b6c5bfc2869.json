@@ -1,1 +1,1 @@
-{"id":"3bb0af627043491ed2af0b6c5bfc2869","fullName":"src/test/resources/features/api/sales_api.feature:52","name":"API_GET_SLS_USR_001 - Normal user can get a sale by id","status":"passed","testResultsByEnv":{"default":"479c9292ae44fd202202d0cdc2c07851"}}
+{"id":"3bb0af627043491ed2af0b6c5bfc2869","fullName":"src/test/resources/features/api/sales_api.feature:52","name":"API_GET_SLS_USR_001 - Normal user can get a sale by id","status":"passed","testResultsByEnv":{"default":"bc874fd3f4b572a6461620ced210337a"}}

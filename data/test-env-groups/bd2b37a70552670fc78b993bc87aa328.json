@@ -1,1 +1,1 @@
-{"id":"bd2b37a70552670fc78b993bc87aa328","fullName":"src/test/resources/features/api/sales_api.feature:17","name":"API_POST_SLS_ADM_002 - Creating a sale exceeding available stock returns an error","status":"passed","testResultsByEnv":{"default":"5b50f4f77d0058a94b618fb12d31ff9c"}}
+{"id":"bd2b37a70552670fc78b993bc87aa328","fullName":"src/test/resources/features/api/sales_api.feature:17","name":"API_POST_SLS_ADM_002 - Creating a sale exceeding available stock returns an error","status":"passed","testResultsByEnv":{"default":"a95150d81e10331e8c010e16f35c76cc"}}
