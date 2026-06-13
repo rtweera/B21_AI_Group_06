@@ -1,1 +1,1 @@
-{"id":"cb924367b0600cb9b818b9eb750e63ef","fullName":"src/test/resources/features/ui/auth_ui.feature:15","name":"UI_DASH_ADM_001 - Admin dashboard shows the required summary cards only","status":"failed","testResultsByEnv":{"default":"f60666727185554f2c05f91e704a5b18"}}
+{"id":"cb924367b0600cb9b818b9eb750e63ef","fullName":"src/test/resources/features/ui/auth_ui.feature:15","name":"UI_DASH_ADM_001 - Admin dashboard shows the required summary cards only","status":"failed","testResultsByEnv":{"default":"e1bf0b8810dbba2a43de6ae4a25f1396"}}

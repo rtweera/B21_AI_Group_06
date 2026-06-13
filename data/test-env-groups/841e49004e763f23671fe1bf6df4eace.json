@@ -1,1 +1,1 @@
-{"id":"841e49004e763f23671fe1bf6df4eace","fullName":"src/test/resources/features/api/categories_api.feature:108","name":"API_GET_CAT_USR_002 - User can get categories with pagination","status":"passed","testResultsByEnv":{"default":"8757a6b3254f1fe6ad73b65af5246477"}}
+{"id":"841e49004e763f23671fe1bf6df4eace","fullName":"src/test/resources/features/api/categories_api.feature:108","name":"API_GET_CAT_USR_002 - User can get categories with pagination","status":"passed","testResultsByEnv":{"default":"de3ea73da88e4502b5d969c0f6c1dbc4"}}

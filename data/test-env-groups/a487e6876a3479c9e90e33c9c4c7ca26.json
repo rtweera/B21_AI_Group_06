@@ -1,1 +1,1 @@
-{"id":"a487e6876a3479c9e90e33c9c4c7ca26","fullName":"src/test/resources/features/ui/plants_ui.feature:111","name":"UI_PLT_USR_008 - Verify that empty sales list displays a message","status":"passed","testResultsByEnv":{"default":"beaa583e1083c9a553cd7dcf2a87d021"}}
+{"id":"a487e6876a3479c9e90e33c9c4c7ca26","fullName":"src/test/resources/features/ui/plants_ui.feature:111","name":"UI_PLT_USR_008 - Verify that empty sales list displays a message","status":"passed","testResultsByEnv":{"default":"4f97bdebd014d81e1123a11ef387c72c"}}

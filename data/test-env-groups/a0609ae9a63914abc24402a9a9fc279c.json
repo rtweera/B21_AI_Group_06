@@ -1,1 +1,1 @@
-{"id":"a0609ae9a63914abc24402a9a9fc279c","fullName":"src/test/resources/features/api/categories_api.feature:16","name":"API_POST_CAT_ADM_001 - Admin can create a category","status":"passed","testResultsByEnv":{"default":"5033df9683303607cac0ea852fae3770"}}
+{"id":"a0609ae9a63914abc24402a9a9fc279c","fullName":"src/test/resources/features/api/categories_api.feature:16","name":"API_POST_CAT_ADM_001 - Admin can create a category","status":"passed","testResultsByEnv":{"default":"d49965c9d0a70ff00b9b3cf266f9ec7a"}}

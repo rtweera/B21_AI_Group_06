@@ -1,1 +1,1 @@
-{"id":"f2a01c4ddae07436f64f9b2ccb8ef54c","fullName":"src/test/resources/features/api/auth_api.feature:21","name":"API_POST_AUTH_USR_002 - Normal user login with incorrect password fails","status":"passed","testResultsByEnv":{"default":"c5c89e927c765922b7624f6f48a4616f"}}
+{"id":"f2a01c4ddae07436f64f9b2ccb8ef54c","fullName":"src/test/resources/features/api/auth_api.feature:21","name":"API_POST_AUTH_USR_002 - Normal user login with incorrect password fails","status":"passed","testResultsByEnv":{"default":"e85f6e787c5b1335bb973ea41c0568cd"}}

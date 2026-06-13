@@ -1,1 +1,1 @@
-{"id":"1f402659f19c34106a4d3d6db77193a3","fullName":"src/test/resources/features/api/auth_api.feature:9","name":"API_POST_AUTH_ADM_001 - Admin login returns an auth token","status":"passed","testResultsByEnv":{"default":"c1c4e117e7a1defcf5564f8809b1be2a"}}
+{"id":"1f402659f19c34106a4d3d6db77193a3","fullName":"src/test/resources/features/api/auth_api.feature:9","name":"API_POST_AUTH_ADM_001 - Admin login returns an auth token","status":"passed","testResultsByEnv":{"default":"c2cd900f281ace3e501679d370f6e112"}}
