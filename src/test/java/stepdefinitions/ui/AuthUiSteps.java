@@ -22,37 +22,23 @@ public class AuthUiSteps extends UiStepSupport {
     // ── Admin login ──────────────────────────────────────────────────────────
 
     @Given("I am logged in as an admin user")
+    @Given("I am logged in as admin")
     public void iAmLoggedInAsAdminUser() {
         loginPage().open();
         loginPage().login(adminUsername(), adminPassword());
         dashboardPage().assertNavigationVisible();
     }
 
-    @Given("I am logged in as admin")
-    public void iAmLoggedInAsAdmin() {
-        System.out.println("[STEP] Logging in as admin...");
-        loginPage().open();
-        loginPage().login(adminUsername(), adminPassword());
-        assertTrue(page().url().contains("/dashboard"), "Should be on dashboard");
-        System.out.println("[PASS] Logged in as admin");
-    }
-
     // ── User login ───────────────────────────────────────────────────────────
 
     @Given("I am logged in as a normal user")
+    @Given("I am logged in as user")
+    @Given("I am logged in as a non-admin user")
     public void iAmLoggedInAsNormalUser() {
+        loginPage().clearCookies();
         loginPage().open();
         loginPage().login(userUsername(), userPassword());
         dashboardPage().assertNavigationVisible();
-    }
-
-    @Given("I am logged in as user")
-    public void iAmLoggedInAsUser() {
-        System.out.println("[STEP] Logging in as user...");
-        loginPage().open();
-        loginPage().login(userUsername(), userPassword());
-        assertTrue(page().url().contains("/dashboard"), "Should be on dashboard");
-        System.out.println("[PASS] Logged in as user");
     }
 
     // ── Not logged in ────────────────────────────────────────────────────────
