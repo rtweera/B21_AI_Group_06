@@ -6,7 +6,7 @@ Feature: Sales API Tests
   # -----------------------------------------------------------------------
 
   @API_POST_SLS_ADM_001 @215552U
-  Scenario: API_POST_SLS_ADM_001 - Admin creates a sale and plant stock is reduced
+  Scenario: [API_POST_SLS_ADM_001] Admin creates a sale and plant stock is reduced
     Given I am authenticated as admin via API
     And I use the existing plant with id 2
     When I create a sale for that plant with quantity 2
@@ -14,7 +14,7 @@ Feature: Sales API Tests
     And the plant stock should be reduced by 2
 
   @API_POST_SLS_ADM_002 @215552U
-  Scenario: API_POST_SLS_ADM_002 - Creating a sale exceeding available stock returns an error
+  Scenario: [API_POST_SLS_ADM_002] Creating a sale exceeding available stock returns an error
     Given I am authenticated as admin via API
     And I use the existing plant with id 4
     When I create a sale for that plant with quantity 999
@@ -22,7 +22,7 @@ Feature: Sales API Tests
     And the plant stock should remain unchanged
 
   @API_POST_SLS_ADM_003 @215552U
-  Scenario: API_POST_SLS_ADM_003 - Creating a sale with quantity zero is rejected
+  Scenario: [API_POST_SLS_ADM_003] Creating a sale with quantity zero is rejected
     Given I am authenticated as admin via API
     And I use the existing plant with id 2
     When I create a sale for that plant with quantity 0
@@ -30,7 +30,7 @@ Feature: Sales API Tests
     And the plant stock should remain unchanged
 
   @API_DEL_SLS_ADM_004 @215552U
-  Scenario: API_DEL_SLS_ADM_004 - Admin deletes a sale successfully
+  Scenario: [API_DEL_SLS_ADM_004] Admin deletes a sale successfully
     Given I am authenticated as admin via API
     And I use the existing plant with id 2
     And I have created a sale for that plant with quantity 1
@@ -38,7 +38,7 @@ Feature: Sales API Tests
     Then the API response status should be 204
 
   @API_GET_SLS_ADM_005 @215552U
-  Scenario: API_GET_SLS_ADM_005 - Admin can get the sales list sorted by date descending
+  Scenario: [API_GET_SLS_ADM_005] Admin can get the sales list sorted by date descending
     Given I am authenticated as admin via API
     When I get the sales list sorted by date descending
     Then the API response status should be 200
@@ -49,7 +49,7 @@ Feature: Sales API Tests
   # -----------------------------------------------------------------------
 
   @API_GET_SLS_USR_001 @215565L
-  Scenario: API_GET_SLS_USR_001 - Normal user can get a sale by id
+  Scenario: [API_GET_SLS_USR_001] Normal user can get a sale by id
     Given a plant exists with its id captured
     And a sale exists for the captured plant id with its id captured
     And I have a normal user API token
@@ -58,7 +58,7 @@ Feature: Sales API Tests
     And the API response body should contain the captured sale id
 
   @API_POST_SLS_USR_002 @215565L
-  Scenario: API_POST_SLS_USR_002 - Normal user cannot create a sale
+  Scenario: [API_POST_SLS_USR_002] Normal user cannot create a sale
     Given a plant exists with its id captured
     And I have a normal user API token
     When I attempt to sell the captured plant with quantity 10
@@ -70,7 +70,7 @@ Feature: Sales API Tests
   # -----------------------------------------------------------------------
 
   @API_DEL_SLS_USR_001 @215552U
-  Scenario: API_DEL_SLS_USR_001 - Normal user cannot delete a sale and receives 403
+  Scenario: [API_DEL_SLS_USR_001] Normal user cannot delete a sale and receives 403
     Given I am authenticated as admin via API
     And I use the existing plant with id 2
     And I have created a sale for that plant with quantity 1
