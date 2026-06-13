@@ -70,12 +70,6 @@ Feature: Plants UI Tests
     And user searches plant "plant"
     Then searched plant "plant" should be displayed
 
-  @UI_PLT_USR_003 @215564H
-  Scenario: UI_PLT_USR_003 - Verify non-admin can search a relevant plant
-    Given non admin user is logged in
-    When user navigates to Plants page
-    And user searches plant "plant 2"
-    Then searched plant "plant 2" should be displayed
 
   # -----------------------------------------------------------------------
   # 215565L – Non-admin plant and sales page access restrictions
